@@ -171,9 +171,9 @@ Parse.Cloud.define('CloudSendPush', function (request) {
 Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
     // request has 2 parameters: params passed by the client and the authorized user
-    var params = request.params;
-    var user = request.user; // request.user replaces Parse.User.current() // https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse
-    var token = user.getSessionToken(); // get session token from request.user
+    // var params = request.params;
+    // var user = request.user; // request.user replaces Parse.User.current() // https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse
+    // var token = user.getSessionToken(); // get session token from request.user
 
     // extract out the channel to send
     var action = params.action;
@@ -183,7 +183,7 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
     // use to custom tweak whatever payload you wish to send
     var pushQuery = new Parse.Query(Parse.Installation);
     //pushQuery.equalTo("deviceType", "android");
-    pushQuery.equalTo("objectId", "i4k7Y4m4d2");
+    pushQuery.equalTo("objectId", "hqSx15fNoO");
 
     var payload = {
         "data": {
@@ -194,6 +194,10 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
     };
 
     // Note that useMasterKey is necessary for Push notifications to succeed.
+    var text = "success";
+    var jsonObject = {
+        "answer": text
+    };
 
     Parse.Push.send({
         data: payload,
@@ -201,16 +205,15 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
     }, {
         success: function () {
             console.log("PushChannelPipe PUSH OK");
+            response.success(jsonObject);
         }, error: function (error) {
             console.log("PushChannelPipe PUSH ERROR" + error.message);
+            response.success("PushChannelPipe PUSH ERROR" + error.message);
         }, useMasterKey: true
     });
 
-    var text = "success";
-    var jsonObject = {
-        "answer": text
-    };
-    response.success(jsonObject);
+
+
 });
 
 
