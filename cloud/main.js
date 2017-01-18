@@ -41,7 +41,7 @@ Parse.Cloud.define('CloudSendToDevice', function (request, response) {
 
 });
 
-Parse.Cloud.beforeSave('CloudMatchWithUser', function (request) {
+Parse.Cloud.beforeSave('CloudMatchWithUser', function (request, response) {
 
     console.log('Run cloud function to match with user ' + request.likedUserId + ' fbId=' + request.fbId + ' like=' + request.params.like);
 
@@ -90,7 +90,7 @@ Parse.Cloud.beforeSave('CloudMatchWithUser', function (request) {
 
 });
 
-Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
+Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
 
     //Create conversation with status active
 
@@ -133,7 +133,7 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
  });
  * */
 
-Parse.Cloud.define('CloudSendPush', function (request) {
+Parse.Cloud.define('CloudSendPush', function (request, response) {
 
     console.log('Run cloud function CloudSendPush');
     var query = new Parse.Query(Parse.Installation);
@@ -224,7 +224,7 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 });
 
 
-Parse.Cloud.define('CloudMatchWithUser', function (request) {
+Parse.Cloud.define('CloudMatchWithUser', function (request, response) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
@@ -250,7 +250,7 @@ Parse.Cloud.define('CloudMatchWithUser', function (request) {
         });
 });
 
-Parse.Cloud.define('CloudUsersRequest', function (request) {
+Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 
     var query = new Parse.Query(Parse.Installation);
     query.exists("deviceToken");
