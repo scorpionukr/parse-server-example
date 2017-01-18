@@ -135,21 +135,24 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
 
 Parse.Cloud.afterSave('CloudSendPush', function (request) {
 
-    var query = new Parse.Query('User');
-    query.equalTo("objectId", "hqSx15fNoO");
+    var query = new Parse.Query(Parse.Installation);
+    query.equalTo('user', 'hqSx15fNoO');
 
     //var itemQuery = new Parse.Query('Item');
     //itemQuery.equalTo('name', request.params.itemName);
     // here you can add other conditions e.g. to send a push to specific users or channel etc.
 
     var payload = {
-        alert: "Message to device"
+        alert: 'Message to device',
+        badge: 1,
+        sound: 'default'
     };
 
 
     Parse.Push.send({
         data: payload,
         where: query
+
     }, {
         useMasterKey: true
     })
@@ -307,5 +310,5 @@ Parse.Cloud.define('CloudHello', function (request, response) {
     // Use the session token to run other Parse Query methods as that user, because
     //   the concept of a 'current' user does not fit in a Node environment.
     //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
-    response.success("Hello world! " + (request.params.a + request.params.b));
+    response.success("Hello world! From Cloud");
 });
