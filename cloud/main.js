@@ -35,7 +35,7 @@ Parse.Cloud.define('CloudSendToDevice', function (request, response) {
         },
         error: function (error) {
             // There was a problem :(
-            response.success("Fail " + error);
+            response.error(error);
         }
     });
 
@@ -46,7 +46,6 @@ Parse.Cloud.beforeSave('CloudMatchWithUser', function (request) {
     console.log('Run cloud function to match with user ' + request.likedUserId + ' fbId=' + request.fbId + ' like=' + request.params.like);
 
     var query = new Parse.Query(Parse.User);
-    Parse.Cloud.useMasterKey();
 
     if (request.params.like) {
         //request.object.id
@@ -136,8 +135,9 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
 
 Parse.Cloud.afterSave('CloudSendPush', function (request) {
 
-    var query = new Parse.Query(Parse.Installation);
-    query.exists("deviceToken");
+    var query = new Parse.Query('_User');
+    query.equalTo("objectId", "hqSx15fNoO");
+
     //var itemQuery = new Parse.Query('Item');
     //itemQuery.equalTo('name', request.params.itemName);
     // here you can add other conditions e.g. to send a push to specific users or channel etc.
@@ -169,7 +169,6 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
     // request has 2 parameters: params passed by the client and the authorized user
     var params = request.params;
-    Parse.Cloud.useMasterKey();
     var user = request.user; // request.user replaces Parse.User.current() // https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse
     var token = user.getSessionToken(); // get session token from request.user
 
