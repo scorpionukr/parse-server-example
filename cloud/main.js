@@ -135,7 +135,7 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
 
 Parse.Cloud.afterSave('CloudSendPush', function (request) {
 
-    var query = new Parse.Query('_User');
+    var query = new Parse.Query('User');
     query.equalTo("objectId", "hqSx15fNoO");
 
     //var itemQuery = new Parse.Query('Item');
