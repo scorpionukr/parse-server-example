@@ -133,7 +133,7 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
  });
  * */
 
-Parse.Cloud.afterSave('CloudSendPush', function (request) {
+Parse.Cloud.define('CloudSendPush', function (request) {
 
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('user', 'hqSx15fNoO');
