@@ -135,20 +135,23 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request) {
 
 Parse.Cloud.define('CloudSendPush', function (request) {
 
+    console.log('Run cloud function CloudSendPush');
     var query = new Parse.Query(Parse.Installation);
+    console.log('Run cloud function. query prepared');
     query.equalTo('user', 'hqSx15fNoO');
 
     //var itemQuery = new Parse.Query('Item');
     //itemQuery.equalTo('name', request.params.itemName);
     // here you can add other conditions e.g. to send a push to specific users or channel etc.
 
+    console.log('Run cloud function. Equal prepared');
     var payload = {
         alert: 'Message to device',
         badge: 1,
         sound: 'default'
     };
 
-
+    console.log('Run cloud function. payload prepared');
     Parse.Push.send({
         data: payload,
         where: query
@@ -157,10 +160,14 @@ Parse.Cloud.define('CloudSendPush', function (request) {
         useMasterKey: true
     })
         .then(function () {
+            console.log('Run cloud function. Ok');
             response.success("Push Sent!");
         }, function (error) {
+            console.log('Run cloud function. Error ' + error.message);
             response.error("Error while trying to send push " + error.message);
         });
+
+    console.log('Run cloud function. CloudSendPush End');
 });
 
 /*
