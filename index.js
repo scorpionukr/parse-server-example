@@ -6,10 +6,10 @@ process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/pa
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 //
-var ParseDashboard = require('parse-dashboard');
+//var ParseDashboard = require('parse-dashboard');
 //var parseServerConfig = require('parse-server-azure-config');
 var url = require('url');
-var config = parseServerConfig(__dirname);
+//var config = parseServerConfig(__dirname);
 //
 var path = require('path');
 
@@ -27,7 +27,7 @@ var api = new ParseServer({
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
   fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
-  serverURL: process.env.SERVER_URL,
+  serverURL: 'https://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
   push: {
       android: {
         senderId: '620420937756',
