@@ -57,9 +57,12 @@ var api = new ParseServer({
 // javascriptKey, restAPIKey, dotNetKey, clientKey
 
 var app = express();
+
 // CORS
 var cors = require('cors')
-app.options('*', cors());
+app.use(cors());
+//app.options('*', cors());
+
 //var ParseServer = require('parse-server').ParseServer;
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
