@@ -59,7 +59,7 @@ var api = new ParseServer({
 var app = express();
 
 // CORS
-var cors = require('cors')
+//var cors = require('cors')
 //app.use(cors());
 //app.options('*', cors());
 
