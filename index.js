@@ -63,6 +63,8 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/parse', api);
 //app.use('/parse-dashboard', ParseDashboard(config.dashboard, true));
 
+// CORS
+app.use(cors());
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
