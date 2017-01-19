@@ -1,7 +1,7 @@
 // Example express application adding the parse-server module to expose Parse
 // compatible API routes.
 
-process.env.SERVER_URL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
@@ -27,7 +27,7 @@ var api = new ParseServer({
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
   fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
-  serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
+  serverURL: 'https://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
   push: {
       android: {
         senderId: '620420937756',
@@ -57,14 +57,17 @@ var api = new ParseServer({
 // javascriptKey, restAPIKey, dotNetKey, clientKey
 
 var app = express();
-var ParseServer = require('parse-server').ParseServer;
+// CORS
+var cors = require('cors')
+app.options('*', cors());
+//var ParseServer = require('parse-server').ParseServer;
 // Serve static assets from the /public folder
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/parse', api);
 //app.use('/parse-dashboard', ParseDashboard(config.dashboard, true));
 
-// CORS
-//app.use(cors());
+
+
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
