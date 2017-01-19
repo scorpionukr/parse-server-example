@@ -26,6 +26,8 @@ var api = new ParseServer({
   cloud: __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
+  restAPIKey: process.env.REST_API_KEY || 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
+  javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
   fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
   serverURL: 'https://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
   push: {
