@@ -138,7 +138,7 @@ Parse.Cloud.define('CloudSendPush', function (request, response) {
     console.log('Run cloud function CloudSendPush');
     var query = new Parse.Query(Parse.Installation);
     console.log('Run cloud function. query prepared');
-    query.equalTo('user', 'hqSx15fNoO').equalTo("deviceType", "android");;
+    query.equalTo('user', 'hqSx15fNoO');//.equalTo("deviceType", "android");;
 
     //var itemQuery = new Parse.Query('Item');
     //itemQuery.equalTo('name', request.params.itemName);
@@ -168,6 +168,32 @@ Parse.Cloud.define('CloudSendPush', function (request, response) {
         });
 
     console.log('Run cloud function. CloudSendPush End');
+});
+
+Parse.Cloud.define("CloudAndroidPush", function(request, response) {
+
+    // request has 2 parameters: params passed by the client and the authorized user
+    // var params = request.params;
+    // var user = request.user;
+
+    // Our "Message" class has a "text" key with the body of the message itself
+    // var messageText = params.text;
+
+    var pushQuery = new Parse.Query(Parse.Installation);
+    pushQuery.equalTo('deviceType', 'android'); // targeting Android devices only
+
+    Parse.Push.send({
+        where: pushQuery, // Set our Installation query
+        data: {
+            alert: "Message: " + "Android"
+        }
+    }, { success: function() {
+        console.log("#### PUSH OK");
+    }, error: function(error) {
+        console.log("#### PUSH ERROR" + error.message);
+    }, useMasterKey: true});
+
+    response.success('success');
 });
 
 /*

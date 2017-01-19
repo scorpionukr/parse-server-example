@@ -13,6 +13,8 @@ var url = require('url');
 //
 var path = require('path');
 
+var winston = require('winston');
+
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
@@ -102,3 +104,5 @@ httpServer.listen(port, function () {
 
 // This will enable the Live Query real-time server
 ParseServer.createLiveQueryServer(httpServer);
+
+
