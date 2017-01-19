@@ -60,7 +60,7 @@ var app = express();
 
 // CORS
 var cors = require('cors')
-app.use(cors());
+//app.use(cors());
 //app.options('*', cors());
 
 //var ParseServer = require('parse-server').ParseServer;
