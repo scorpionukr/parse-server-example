@@ -7,7 +7,7 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 //
 var ParseDashboard = require('parse-dashboard');
-var parseServerConfig = require('parse-server-azure-config');
+//var parseServerConfig = require('parse-server-azure-config');
 var url = require('url');
 var config = parseServerConfig(__dirname);
 //
