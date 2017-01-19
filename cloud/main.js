@@ -138,7 +138,7 @@ Parse.Cloud.define('CloudSendPush', function (request, response) {
     console.log('Run cloud function CloudSendPush');
     var query = new Parse.Query(Parse.Installation);
     console.log('Run cloud function. query prepared');
-    query.equalTo('user', 'hqSx15fNoO');
+    query.equalTo('user', 'hqSx15fNoO').equalTo("deviceType", "android");;
 
     //var itemQuery = new Parse.Query('Item');
     //itemQuery.equalTo('name', request.params.itemName);
