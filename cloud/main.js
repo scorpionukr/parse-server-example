@@ -142,8 +142,8 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
     // var messageText = params.text;
 
     var pushQuery = new Parse.Query(Parse.Installation);
-    pushQuery.equalTo('deviceType', 'android');
-    //pushQuery.equalTo('user', whereId);//'hqSx15fNoO'//whereId
+    //pushQuery.equalTo('deviceType', 'android');
+    pushQuery.equalTo('user', whereId);//'hqSx15fNoO'//whereId
 
     Parse.Push.send({
         where: pushQuery,
@@ -154,8 +154,8 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
         console.log("#### PUSH OK");
         response.success('success');
     }, error: function(error) {
-        console.log("#### PUSH ERROR" + error.message);
-        response.error(error.message);
+        //console.log("#### PUSH ERROR" + error.message);
+        response.error(error);
     }, useMasterKey: true});
 
 
