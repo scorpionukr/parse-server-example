@@ -26,9 +26,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 var api = new ParseServer({
     databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
-    appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-    masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
-    restAPIKey: process.env.REST_API_KEY || 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
+    appId:  '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
+    masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
+    restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
     javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
     fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
@@ -70,8 +70,8 @@ var api = new ParseServer({
 var app = express();
 
 // CORS
-var cors = require('cors')
-app.use(cors());
+// var cors = require('cors')
+// app.use(cors());
 //app.options('*', cors());
 
 //var ParseServer = require('parse-server').ParseServer;
