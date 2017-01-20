@@ -1,4 +1,4 @@
-Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+Parse.serverURL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
 
 //var Parse = require('parse-cloud-express').Parse;
 
@@ -133,46 +133,8 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
  });
  * */
 
-Parse.Cloud.define('CloudSendPush', function (request, response) {
+Parse.Cloud.define("CloudSendPush", function(request, response) {
 
-    console.log('Run cloud function CloudSendPush');
-    var query = new Parse.Query(Parse.Installation);
-    console.log('Run cloud function. query prepared');
-    query.equalTo('user', 'hqSx15fNoO');//.equalTo("deviceType", "android");;
-
-    //var itemQuery = new Parse.Query('Item');
-    //itemQuery.equalTo('name', request.params.itemName);
-    // here you can add other conditions e.g. to send a push to specific users or channel etc.
-
-    console.log('Run cloud function. Equal prepared');
-    var payload = {
-        alert: 'Message to device',
-        badge: 1,
-        sound: 'default'
-    };
-
-    console.log('Run cloud function. payload prepared');
-    Parse.Push.send({
-        data: payload,
-        where: query
-
-    }, {
-        useMasterKey: true
-    })
-        .then(function () {
-            console.log('Run cloud function. Ok');
-            response.success("Push Sent!");
-        }, function (error) {
-            console.log('Run cloud function. Error ' + error.message);
-            response.error("Error while trying to send push " + error.message);
-        });
-
-    console.log('Run cloud function. CloudSendPush End');
-});
-
-Parse.Cloud.define("CloudAndroidPush", function(request, response) {
-
-    // request has 2 parameters: params passed by the client and the authorized user
     // var params = request.params;
     // var user = request.user;
 
@@ -180,11 +142,11 @@ Parse.Cloud.define("CloudAndroidPush", function(request, response) {
     // var messageText = params.text;
 
     var pushQuery = new Parse.Query(Parse.Installation);
-    //pushQuery.equalTo('deviceType', 'android'); // targeting Android devices only
+    //pushQuery.equalTo('deviceType', 'android');
     pushQuery.equalTo('user', 'hqSx15fNoO');
 
     Parse.Push.send({
-        where: pushQuery, // Set our Installation query
+        where: pushQuery,
         data: {
             alert: "Message: " + "Android"
         }
