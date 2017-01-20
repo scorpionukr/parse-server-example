@@ -142,20 +142,20 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
     // var messageText = params.text;
 
     var pushQuery = new Parse.Query(Parse.Installation);
-    //pushQuery.equalTo('deviceType', 'android');
-    pushQuery.equalTo('user', whereId);//'hqSx15fNoO'//whereId
+    pushQuery.equalTo('deviceType', 'android');
+    //pushQuery.equalTo('user', whereId);//'hqSx15fNoO'//whereId
 
     Parse.Push.send({
         where: pushQuery,
         data: {
-            alert: "Message: " + "Android"
+            alert: "Happy Weekend with WeightsNDates!"
         }
     }, { success: function() {
         console.log("#### PUSH OK");
         response.success('success');
     }, error: function(error) {
         console.log("#### PUSH ERROR" + error.message);
-        response.error('fail');
+        response.error(error.message);
     }, useMasterKey: true});
 
 
