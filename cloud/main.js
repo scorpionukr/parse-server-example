@@ -143,7 +143,7 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
 
     var pushQuery = new Parse.Query(Parse.Installation);
     //pushQuery.equalTo('deviceType', 'android');
-    pushQuery.equalTo('user', whereId);//'hqSx15fNoO'
+    pushQuery.equalTo('user', 'hqSx15fNoO');//'hqSx15fNoO'//whereId
 
     Parse.Push.send({
         where: pushQuery,
