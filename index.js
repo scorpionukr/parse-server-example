@@ -17,7 +17,7 @@ var path = require('path');
 
 var winston = require('winston');
 
-var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
+var databaseUri = 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev' || process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
     console.log('DATABASE_URI not specified, falling back to localhost.');

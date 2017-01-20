@@ -10,7 +10,6 @@
   "license": "MIT",
   "dependencies": {
     "express": "~4.11.x",
-    "cors": "*",
     "winston": "*",
     "kerberos": "~0.0.x",
     "parse": "~1.8.0",
