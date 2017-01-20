@@ -30,8 +30,8 @@ var api = new ParseServer({
     databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
     appId:  '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-//    facebookAppIds: ['1014313108587926']
-//    oauth: { facebook: { appIds: ['1014313108587926'] }}
+    facebookAppIds: ['1014313108587926']
+    oauth: {facebook: {appIds: ['1014313108587926']}}
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
     javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
