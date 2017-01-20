@@ -136,14 +136,14 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
 Parse.Cloud.define("CloudSendPush", function(request, response) {
 
     // var params = request.params;
-    // var user = request.user;
+    var whereId = request.whereId;
 
     // Our "Message" class has a "text" key with the body of the message itself
     // var messageText = params.text;
 
     var pushQuery = new Parse.Query(Parse.Installation);
     //pushQuery.equalTo('deviceType', 'android');
-    pushQuery.equalTo('user', 'hqSx15fNoO');
+    pushQuery.equalTo('user', whereId);
 
     Parse.Push.send({
         where: pushQuery,
@@ -152,11 +152,13 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
         }
     }, { success: function() {
         console.log("#### PUSH OK");
+        response.success('success');
     }, error: function(error) {
         console.log("#### PUSH ERROR" + error.message);
+        response.error('fail');
     }, useMasterKey: true});
 
-    response.success('success');
+
 });
 
 /*
