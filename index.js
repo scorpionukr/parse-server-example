@@ -3,11 +3,15 @@
 
 process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
 
-
-
 var express = require('express');
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+var fs = require("fs");
+
+var privateKey = fs.readFileSync('server.key');
+var certificate = fs.readFileSync('server.crt');
+var cabundles = fs.readFileSync('server-dev.cabundle');
+
+//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var ParseServer = require('parse-server').ParseServer;
 //
@@ -29,7 +33,7 @@ if (!databaseUri) {
 var api = new ParseServer({
     databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
-    appId:  '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
+    appId: '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
     //facebookAppIds: ['1014313108587926']
     //oauth: {facebook: {appIds: ['1014313108587926']}}
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
@@ -103,7 +107,11 @@ app.get('/test', function (req, res) {
 
 
 var port = process.env.PORT || 1337;
-var httpServer = require('http').createServer(app);
+var httpServer = require('https').createServer({
+    key: privateKey,
+    cert: certificate,
+    ca: cabundles
+}, app);
 httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
 });
