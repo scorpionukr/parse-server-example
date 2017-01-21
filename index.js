@@ -5,7 +5,7 @@ process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/pa
 
 var express = require('express');
 
-// var fs = require("fs");
+var fs = require("fs");
 //
 // var privateKey = fs.readFileSync('server.key');
 // var certificate = fs.readFileSync('server.crt');
