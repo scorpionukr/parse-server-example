@@ -5,11 +5,11 @@ process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/pa
 
 var express = require('express');
 
-var fs = require("fs");
-
-var privateKey = fs.readFileSync('server.key');
-var certificate = fs.readFileSync('server.crt');
-var cabundles = fs.readFileSync('server-dev.cabundle');
+// var fs = require("fs");
+//
+// var privateKey = fs.readFileSync('server.key');
+// var certificate = fs.readFileSync('server.crt');
+// var cabundles = fs.readFileSync('server-dev.cabundle');
 
 //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -107,11 +107,13 @@ app.get('/test', function (req, res) {
 
 
 var port = process.env.PORT || 1337;
-var httpServer = require('https').createServer({
-    key: privateKey,
-    cert: certificate,
-    ca: cabundles
-}, app);
+// var httpServer = require('https').createServer({
+//     key: privateKey,
+//     cert: certificate,
+//     ca: cabundles
+// }, app);
+
+var httpServer = require('http').createServer(app);
 httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
 });
