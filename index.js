@@ -2,6 +2,7 @@
 // compatible API routes.
 
 process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var express = require('express');
 
@@ -11,7 +12,6 @@ var privateKey = fs.readFileSync('server.key');
 var certificate = fs.readFileSync('server.crt');
 // var cabundles = fs.readFileSync('server-dev.cabundle');
 
-//process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var ParseServer = require('parse-server').ParseServer;
 //
