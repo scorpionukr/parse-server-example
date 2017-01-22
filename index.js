@@ -7,9 +7,9 @@ var express = require('express');
 
 var fs = require("fs");
 //
-// var privateKey = fs.readFileSync('server.key');
-// var certificate = fs.readFileSync('server.crt');
-// var cabundles = fs.readFileSync('server-dev.cabundle');
+var privateKey = fs.readFileSync('server.key');
+var certificate = fs.readFileSync('server.crt');
+var cabundles = fs.readFileSync('server-dev.cabundle');
 
 //process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
