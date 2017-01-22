@@ -111,7 +111,7 @@ var httpServer = require('https').createServer({
     key: privateKey,
     cert: certificate,
     //ca: cabundles,
-    NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
+    //NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
 }, app);
 
 // var httpServer = require('http').createServer(app);
