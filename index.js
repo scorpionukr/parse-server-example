@@ -110,10 +110,12 @@ var port = process.env.PORT || 1337;
 var httpServer = require('https').createServer({
     key: privateKey,
     cert: certificate,
-    ca: cabundles
+    ca: cabundles,
+    NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
 }, app);
 
-//var httpServer = require('http').createServer(app);
+// var httpServer = require('http').createServer(app);
+
 httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
 });
