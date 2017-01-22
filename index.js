@@ -107,13 +107,13 @@ app.get('/test', function (req, res) {
 
 
 var port = process.env.PORT || 1337;
-// var httpServer = require('https').createServer({
-//     key: privateKey,
-//     cert: certificate,
-//     ca: cabundles
-// }, app);
+var httpServer = require('https').createServer({
+    key: privateKey,
+    cert: certificate,
+    ca: cabundles
+}, app);
 
-var httpServer = require('http').createServer(app);
+//var httpServer = require('http').createServer(app);
 httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
 });
