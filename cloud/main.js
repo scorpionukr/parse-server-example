@@ -1,10 +1,10 @@
 Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
 
-process.env.PARSE_SERVER_APPLICATION_ID = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-process.env.PARSE_SERVER_MASTER_KEY = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
-process.env.PARSE_SERVER_FACEBOOK_APP_IDS = '1014313108587926';
+Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+Parse.facebookAppIds = '1014313108587926';
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
 //Parse.nodeTls
 //var Parse = require('parse-cloud-express').Parse;
@@ -150,7 +150,7 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
 
     var pushQuery = new Parse.Query(Parse.Installation);
     //pushQuery.equalTo('deviceType', 'android');
-    pushQuery.equalTo('user', whereId);//'hqSx15fNoO'//whereId
+    pushQuery.equalTo('user', 'EnRn2msAcx');//'hqSx15fNoO'//whereId//EnRn2msAcx
 
     Parse.Push.send({
         where: pushQuery,
@@ -206,7 +206,7 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
 
     Parse.Push.send({
         data: payload,
-        where: pushQuery,      // for sending to a specific channel                                                                                                                                 data: payload,
+        where: pushQuery,      // for sending to a specific channel  data: payload,
     }, {
         success: function () {
             console.log("PushChannelPipe PUSH OK");
