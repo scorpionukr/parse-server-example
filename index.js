@@ -1,7 +1,7 @@
 // Example express application adding the parse-server module to expose Parse
 // compatible API routes.
 
-process.env.SERVER_URL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
+process.env.SERVER_URL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var express = require('express');
@@ -41,7 +41,7 @@ var api = new ParseServer({
     javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
     fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
-    serverURL: 'https://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
+    serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     push: {
         android: {
             senderId: '620420937756',
