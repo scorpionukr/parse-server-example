@@ -38,7 +38,7 @@ var api = new ParseServer({
     oauth: {facebook: {appIds: ['1014313108587926']}},
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
-    javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
+    //javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
     fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
@@ -79,8 +79,8 @@ var api = new ParseServer({
 var app = express();
 
 // CORS
-// var cors = require('cors')
-// app.use(cors());
+ var cors = require('cors')
+ app.use(cors());
 //app.options('*', cors());
 
 //var ParseServer = require('parse-server').ParseServer;

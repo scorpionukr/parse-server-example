@@ -1,5 +1,5 @@
-Parse.serverURL = 'https://weightsndates-server-dev.herokuapp.com:1337/parse';
-
+Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+//Parse.nodeTls
 //var Parse = require('parse-cloud-express').Parse;
 
 //For additional JS file support call require('cloud/mainSplit.js');
