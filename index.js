@@ -46,7 +46,7 @@ var api = new ParseServer({
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh',
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
     javascriptKey: 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
-    node
+
     fileKey: '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
