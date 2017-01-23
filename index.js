@@ -31,14 +31,14 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-    databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
+    databaseURI: 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
     appId: '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-    facebookAppIds: ['1014313108587926'],
+    //facebookAppIds: ['1014313108587926'],
     oauth: {facebook: {appIds: ['1014313108587926']}},
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
-    //javascriptKey: process.env.JAVASCRIPT_KEY || 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
+    javascriptKey: 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
     fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
@@ -91,7 +91,7 @@ app.use('/parse', api);
 
 
 // Serve the Parse API on the /parse URL prefix
-var mountPath = process.env.PARSE_MOUNT || '/parse';
+//var mountPath = process.env.PARSE_MOUNT || '/parse';
 //app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
