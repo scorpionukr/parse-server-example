@@ -2,6 +2,9 @@
 // compatible API routes.
 
 process.env.SERVER_URL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+process.env.PARSE_SERVER_APPLICATION_ID = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+process.env.PARSE_SERVER_MASTER_KEY = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+process.env.PARSE_SERVER_FACEBOOK_APP_IDS = '1014313108587926';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 var express = require('express');
@@ -34,12 +37,16 @@ var api = new ParseServer({
     databaseURI: 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
     appId: '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-    //facebookAppIds: ['1014313108587926'],
-    oauth: {facebook: {appIds: ['1014313108587926']}},
-    masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
+    facebookAppIds: '1014313108587926',
+    oauth: {
+        facebook: {
+            appIds: '1014313108587926'
+        }
+    },
+    masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh',
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
     javascriptKey: 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
-    fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
+    fileKey: '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
     push: {
