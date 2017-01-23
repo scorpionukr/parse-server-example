@@ -140,7 +140,7 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
  });
  * */
 
-Parse.Cloud.define("CloudSendPush", function(request, response) {
+Parse.Cloud.define("CloudSendPush", function (request, response) {
 
     var params = request.params;
     var whereId = params.whereId;
@@ -155,15 +155,22 @@ Parse.Cloud.define("CloudSendPush", function(request, response) {
     Parse.Push.send({
         where: pushQuery,
         data: {
-            alert: "Happy Weekend with WeightsNDates!"
+            alert: "Happy Weekend with WeightsNDates!",
+            badge: 1,
+            sound: 'default'
+            //,content-available: 1
         }
-    }, { success: function() {
-        console.log("#### PUSH OK");
-        response.success('success');
-    }, error: function(error) {
-        //console.log("#### PUSH ERROR" + error.message);
-        response.error(error);
-    }, useMasterKey: true});
+    }, {
+        useMasterKey: true,
+
+        success: function () {
+            console.log("#### PUSH OK");
+            response.success('success');
+        }, error: function (error) {
+            //console.log("#### PUSH ERROR" + error.message);
+            response.error(error);
+        }
+    });
 
 
 });
@@ -216,7 +223,6 @@ Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
             response.success("PushChannelPipe PUSH ERROR" + error.message);
         }, useMasterKey: true
     });
-
 
 
 });
