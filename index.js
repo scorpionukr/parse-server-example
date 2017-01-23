@@ -14,9 +14,9 @@ var certificate = fs.readFileSync('server.crt');
 
 
 var ParseServer = require('parse-server').ParseServer;
-//
+
 //var ParseDashboard = require('parse-dashboard');
-//var parseServerConfig = require('parse-server-azure-config');
+
 var url = require('url');
 //var config = parseServerConfig(__dirname);
 //
@@ -34,14 +34,14 @@ var api = new ParseServer({
     databaseURI: 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
     cloud: __dirname + '/cloud/main.js',
     appId: '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-    //facebookAppIds: ['1014313108587926'],
+    facebookAppIds: ['1014313108587926'],
     oauth: {facebook: {appIds: ['1014313108587926']}},
     masterKey: 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
     restAPIKey: 'f5qIV3QQpVArlBSOfhch8t0vZOW5KAnvzd8NKoiv',
     javascriptKey: 'AFNEEDcrqBWFPMgpJPOIn4y4NBVlMdxFxxRJVOXl',
     fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
     //serverURL: ((process.env.HTTPS) ? 'https://' : 'http://') + 'weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
-    serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse' || process.env.SERVER_URL,
+    serverURL: 'http://weightsndates-server-dev.herokuapp.com:1337/parse',
     push: {
         android: {
             senderId: '620420937756',
@@ -106,7 +106,7 @@ app.get('/test', function (req, res) {
 });
 
 
-var port = process.env.PORT || 1337;
+//HTTPS Implementation
 // var httpServer = require('https').createServer({
 //     key: privateKey,
 //     cert: certificate,
@@ -114,13 +114,15 @@ var port = process.env.PORT || 1337;
 //     NPNProtocols: ['http/2.0', 'spdy', 'http/1.1', 'http/1.0']
 // }, app);
 
+//HTTP Impl
 var httpServer = require('http').createServer(app);
 
+var port = 1337;
 httpServer.listen(port, function () {
     console.log('parse-server-example running on port ' + port + '.');
 });
 
-// This will enable the Live Query real-time server
+// Enable the Live Query real-time server
 ParseServer.createLiveQueryServer(httpServer);
 
 
