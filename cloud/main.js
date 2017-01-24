@@ -1,5 +1,12 @@
-const CleverTap = require("clevertap");
-const clevertap = CleverTap.init(process.env.CLEVERTAP_ACCOUNT_ID, process.env.CLEVERTAP_ACCOUNT_PASSCODE);
+Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+
+
+Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+
+var CleverTap = require("clevertap");
+var clevertap = CleverTap.init('8W8-Z9Z-584Z', 'SCE-ZUD-UIAL');
 
 
 Parse.Cloud.define('hello', function(req, res) {

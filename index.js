@@ -5,6 +5,9 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
+var CleverTap = require("clevertap");
+var clevertap = CleverTap.init('8W8-Z9Z-584Z', 'SCE-ZUD-UIAL');
+
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
