@@ -183,13 +183,13 @@ Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
     //var msg = request.params.message;
 
     Parse.Push.send({
-        //channels: [ request.params.accountId ],
+        channels: [ 'hqSx15fNoO' ],
         data: {
             title: 'Test device',
             message: 'WnD loves you!',
             action: "com.announcement.SEND_ANNOUNCEMENT",
             senderId: '620420937756',//620420937756//hqSx15fNoO
-            //accountId: request.params.accountId
+            accountId: 'hqSx15fNoO'
         }
     }, {
         success: function() {
