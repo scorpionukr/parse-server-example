@@ -178,18 +178,18 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
 
 });
 
-Parse.Cloud.define("sendAnnouncement", function(request, response) {
-    var name = request.params.senderName;
-    var msg = request.params.message;
+Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
+    //var name = request.params.senderName;
+    //var msg = request.params.message;
 
     Parse.Push.send({
-        channels: [ request.params.accountId ],
+        //channels: [ request.params.accountId ],
         data: {
-            title: name,
-            message: msg,
-            action: "com.hello.announcement.sample.SEND_ANNOUNCEMENT",
-            senderId: request.params.senderId,
-            accountId: request.params.accountId
+            title: 'Test device',
+            message: 'WnD loves you!',
+            action: "com.announcement.SEND_ANNOUNCEMENT",
+            senderId: '620420937756',//620420937756//hqSx15fNoO
+            //accountId: request.params.accountId
         }
     }, {
         success: function() {
