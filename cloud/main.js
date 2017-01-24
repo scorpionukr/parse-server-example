@@ -151,7 +151,7 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
     // Our "Message" class has a "text" key with the body of the message itself
     // var messageText = params.text;
 
-    var pushQuery = new Parse.Query(Parse.Installation);
+    var pushQuery = new Parse.Query('_Installation');
     pushQuery.equalTo('deviceType', 'ios');
     //pushQuery.equalTo('user', 'EnRn2msAcx');//'hqSx15fNoO'//whereId//EnRn2msAcx
 
@@ -173,7 +173,7 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
             //console.log("#### PUSH ERROR" + error.message);
             response.error(error);
         }
-    });
+    }, {hasPushSupport: 1});
 
 
 });
