@@ -145,15 +145,15 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
 
 Parse.Cloud.define("CloudSendPush", function (request, response) {
 
-    var params = request.params;
-    var whereId = params.whereId;
+    //var params = request.params;
+    //var whereId = params.whereId;
 
     // Our "Message" class has a "text" key with the body of the message itself
     // var messageText = params.text;
 
     var pushQuery = new Parse.Query(Parse.Installation);
-    //pushQuery.equalTo('deviceType', 'android');
-    pushQuery.equalTo('user', 'EnRn2msAcx');//'hqSx15fNoO'//whereId//EnRn2msAcx
+    pushQuery.equalTo('deviceType', 'ios');
+    //pushQuery.equalTo('user', 'EnRn2msAcx');//'hqSx15fNoO'//whereId//EnRn2msAcx
 
     Parse.Push.send({
         where: pushQuery,
