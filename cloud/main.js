@@ -204,6 +204,32 @@ Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
     });
 });
 
+Parse.Cloud.define("sendAnnouncement", function(request, response) {
+    var name = request.params.senderName;
+    var msg = request.params.message;
+
+    Parse.Push.send({
+        channels: [ request.params.accountId ],
+        data: {
+            title: name,
+            message: msg,
+            action: "com.announcement.SEND_ANNOUNCEMENT",
+            senderId: request.params.senderId,
+            accountId: request.params.accountId
+        }
+    }, {
+        success: function() {
+            // Push was successful
+            response.success("sendAnnouncement sent");
+        },
+        error: function(error) {
+            // Handle error
+            response.error("error with sendAnnouncement: " + error);
+        },
+        useMasterKey: true
+    });
+});
+
 /*
  * Method to send Message to all Android devices
  * Test from CURL
