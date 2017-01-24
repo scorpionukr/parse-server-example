@@ -13,6 +13,8 @@
     "kerberos": "~0.0.x",
     "parse": "~1.8.0",
     "parse-server": "*"
+    "node-aes-gcm": "0.1.7"
+    "node-aes-gcm": "*"
   },
   "scripts": {
     "start": "node index.js"

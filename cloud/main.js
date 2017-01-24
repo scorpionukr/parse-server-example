@@ -1,20 +1,12 @@
 Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
 Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
 
-
 Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
-
-//Parse.nodeTls
-//var Parse = require('parse-cloud-express').Parse;
-
-//For additional JS file support call require('cloud/mainSplit.js');
-
-// Send pushes block
 
 Parse.Cloud.define('CloudSendToDevice', function (request, response) {
     console.log('Run cloud function to forward message to user');
