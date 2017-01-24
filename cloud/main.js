@@ -6,6 +6,9 @@ Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 
+var gcm = require('node-gcm');
+var sender = new gcm.Sender('AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE');
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
 Parse.Cloud.define('CloudSendToDevice', function (request, response) {
@@ -166,6 +169,28 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
             response.error(error);
         }
     }, {hasPushSupport: 1});
+
+
+});
+
+Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
+
+
+
+    var pushQuery = new Parse.Query('_Installation');
+    pushQuery.equalTo('deviceType', 'ios');
+
+
+    var message = new gcm.Message({
+        data: { key1: 'msg1' }
+    });
+
+    var regTokens = ['YOUR_REG_TOKEN_HERE'];
+
+    sender.send(message, { registrationTokens: regTokens }, function (err, response) {
+        if(err) response.error("error with sendPush: " + err);
+        else 	response.success("Push send");
+    });
 
 
 });

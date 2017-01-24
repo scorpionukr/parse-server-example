@@ -5,6 +5,9 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
+var gcm = require('node-gcm');
+var sender = new gcm.Sender('AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE');
+
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
 if (!databaseUri) {
@@ -55,6 +58,8 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
+
+//app.use();
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
