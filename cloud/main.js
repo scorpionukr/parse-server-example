@@ -195,7 +195,7 @@ Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
 
 });
 
-Parse.Cloud.define("CloudSendPushFull", function (request, response) {
+Parse.Cloud.define("CloudSendPushFull", function (request, responseTotal) {
 
     var message = new gcm.Message({
         collapseKey: 'demo',
@@ -227,8 +227,8 @@ Parse.Cloud.define("CloudSendPushFull", function (request, response) {
     registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
 
     sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
-        if(err) response.error("error with sendPush: " + err);
-        else 	response.success("Push send");
+        if(err) responseTotal.error("error with sendPush: " + err);
+        else 	responseTotal.success("Push send");
     }, {useMasterKey: true});
 });
 
