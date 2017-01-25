@@ -178,11 +178,11 @@ Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
 
 
     var pushQuery = new Parse.Query('_Installation');
-    pushQuery.equalTo('deviceType', 'ios');
+    pushQuery.equalTo('deviceType', 'android');
 
 
     var message = new gcm.Message({
-        data: { key1: 'msg1' }
+        data: { key1: 'Android Message' }
     });
 
     var regTokens = ['YOUR_REG_TOKEN_HERE'];
@@ -193,6 +193,43 @@ Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
     });
 
 
+});
+
+Parse.Cloud.define("CloudSendPushFull", function (request, response) {
+
+    var message = new gcm.Message({
+        collapseKey: 'demo',
+        priority: 'high',
+        contentAvailable: true,
+        delayWhileIdle: true,
+        timeToLive: 3,
+        restrictedPackageName: "com.weights.n.dates.app",
+        dryRun: true,
+        data: {
+            key1: 'message1',
+            key2: 'message2'
+        },
+        notification: {
+            title: "Hello, Android",
+            icon: "ic_launcher",
+            body: "This is a notification that will be displayed ASAP."
+        }
+    });
+
+    message.addData({
+        key1: 'message1',
+        key2: 'message2'
+    });
+
+// Add the registration tokens of the devices you want to send to
+    var registrationTokens = [];
+    registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
+    registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
+
+    sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
+        if(err) console.error(err);
+        else    console.log(response);
+    });
 });
 
 Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
