@@ -13,7 +13,8 @@
     "kerberos": "~0.0.x",
     "parse": "~1.8.0",
     "parse-server": "*",
-    "node-gcm": "*"
+    "node-gcm": "*",
+    "fcm-node": "1.0.16"
   },
   "scripts": {
     "start": "node index.js"

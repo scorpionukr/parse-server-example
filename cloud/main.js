@@ -7,7 +7,11 @@ Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 
 var gcm = require('node-gcm');
-var sender = new gcm.Sender('AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE');
+var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
+var FCM = require('fcm-node');
+var fcm = new FCM(SERVER_KEY_FCM);
+
+var sender = new gcm.Sender(SERVER_KEY_FCM);
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
 
@@ -173,7 +177,7 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
 
 });
 
-Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
+Parse.Cloud.define("CloudSendPushAlt", function (request, responseTotal) {
 
 
 
@@ -188,8 +192,8 @@ Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
     var regTokens = ['YOUR_REG_TOKEN_HERE'];
 
     sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-        if(err) response.error("error with sendPush: " + err);
-        else 	response.success("Push send");
+        if(err) responseTotal.error("error with sendPush: " + err);
+        else 	responseTotal.success("Push send");
     });
 
 
@@ -234,6 +238,37 @@ Parse.Cloud.define("CloudSendPushFull", function (request, responseTotal) {
         if(err) responseTotal.error("error with sendPush: " + err);
         else 	responseTotal.success("Push send");
     }, {useMasterKey: true});
+});
+
+//FCM integration
+Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
+
+    var params = request.params;
+    var gcmToken = params.gcmToken;
+
+    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        to: gcmToken,
+     //   collapse_key: 'your_collapse_key',
+        priority: "high",
+
+        notification: {
+            title: 'Title of your push notification',
+            body: 'Body of your push notification',
+            icon: 'ic_stat_utn',
+            tag: 'tag text'
+        },
+
+        data: {  //you can send only notification or only data(or include both)
+            my_key: 'my value',
+            my_another_key: 'my another value'
+        }
+    };
+
+    fcm.send(message, function(err, response){
+        if(err) responseTotal.error("error with sendPush: " + err);
+        else 	responseTotal.success("Push send");
+    }, {useMasterKey: true});
+
 });
 
 Parse.Cloud.define("CloudPushSingle", function (request, responseTotal) {

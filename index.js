@@ -6,7 +6,12 @@ var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
 var gcm = require('node-gcm');
-var sender = new gcm.Sender('AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE');
+
+var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
+var FCM = require('fcm-node');
+var fcm = new FCM(SERVER_KEY_FCM);
+
+var sender = new gcm.Sender(SERVER_KEY_FCM);
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
