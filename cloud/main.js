@@ -197,6 +197,9 @@ Parse.Cloud.define("CloudSendPushAlt", function (request, response) {
 
 Parse.Cloud.define("CloudSendPushFull", function (request, responseTotal) {
 
+    var params = request.params;
+    var gcmToken = params.gcmToken;
+
     var message = new gcm.Message({
         collapseKey: 'demo',
         priority: 'high',
@@ -223,13 +226,56 @@ Parse.Cloud.define("CloudSendPushFull", function (request, responseTotal) {
 
 // Add the registration tokens of the devices you want to send to
     var registrationTokens = [];
-    registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
-    registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
+    registrationTokens.push(gcmToken);
+    //registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
+    //registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
 
     sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
         if(err) responseTotal.error("error with sendPush: " + err);
         else 	responseTotal.success("Push send");
     }, {useMasterKey: true});
+});
+
+Parse.Cloud.define("CloudPushSingle", function (request, responseTotal) {
+
+    var params = request.params;
+    var gcmToken = params.gcmToken;
+
+    var message = new gcm.Message({
+        collapseKey: 'demo',
+        priority: 'high',
+        contentAvailable: true,
+        delayWhileIdle: true,
+        timeToLive: 3,
+        restrictedPackageName: "com.weights.n.dates.app",
+        dryRun: true,
+        data: {
+            key1: 'message1',
+            key2: 'message2'
+        },
+        notification: {
+            title: "Hello, Android",
+            icon: "ic_launcher",
+            body: "This is a notification that will be displayed ASAP."
+        }
+    });
+
+    message.addData({
+        key1: 'message1',
+        key2: 'message2'
+    });
+
+// Add the registration tokens of the devices you want to send to
+    var registrationTokens = [];
+    registrationTokens.push(gcmToken);
+    //registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
+    //registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
+
+    sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function (err, response) {
+        if(err) responseTotal.error("error with sendPush: " + err);
+        else 	responseTotal.success("Push send");
+    }, {useMasterKey: true});
+
 });
 
 Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
