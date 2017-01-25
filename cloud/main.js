@@ -229,7 +229,7 @@ Parse.Cloud.define("CloudSendPushFull", function (request, response) {
     sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
         if(err) response.error("error with sendPush: " + err);
         else 	response.success("Push send");
-    });
+    }, {useMasterKey: true});
 });
 
 Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
