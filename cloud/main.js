@@ -288,10 +288,10 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     //CAN BE RECEIVED FROM CLOUD CODE FUNCTION
 
-    var receiverInstallation = getUser(toId);
+    //var receiverInstallation = getUser(toId);
 
     var userQuery = new Parse.Query(Parse.Installation);
-    userQuery.equalTo("user", userId);
+    userQuery.equalTo("user", toId);
 
     //Here you aren't directly returning a user, but you are returning a function that will sometime in the future return a user. This is considered a promise.
     return userQuery.first
