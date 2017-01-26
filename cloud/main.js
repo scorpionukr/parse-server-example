@@ -239,7 +239,17 @@ Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
     var conversationId = params.conversationId;
 
     //CAN BE RECEIVED FROM CLOUD CODE FUNCTION
-    var fcmToken = params.receiverFcmToken;
+
+    var receiverInstallation = getUser(toId);
+
+    if (receiverInstallation.error) {
+        responseTotal.error('No installation for sender');
+    }
+
+    var fcmToken = receiverInstallation.get('GCMSenderId');
+
+    console.log('Token for send chat push' + fcmToken);
+
     var fromName = params.senderName;
 
     //PROCESSING
@@ -329,6 +339,25 @@ Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
 
 });
 
+function getUser(userId)
+{
+    var userQuery = new Parse.Query(Parse.Installation);
+    userQuery.equalTo("user", userId);
+
+    //Here you aren't directly returning a user, but you are returning a function that will sometime in the future return a user. This is considered a promise.
+    return userQuery.first
+    ({
+        success: function(userRetrieved)
+        {
+            //When the success method fires and you return userRetrieved you fulfill the above promise, and the userRetrieved continues up the chain.
+            return userRetrieved;
+        },
+        error: function(error)
+        {
+            return error;
+        }
+    }, {useMasterKey: true});
+};
 
 //BASIC TEST BLOCK
 
