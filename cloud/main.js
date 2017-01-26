@@ -134,40 +134,6 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
  public void done(Object object, ParseException e) { // handle callback } });
  * */
 
-Parse.Cloud.define("CloudSendPush", function (request, response) {
-
-    //var params = request.params;
-    //var whereId = params.whereId;
-
-    // Our "Message" class has a "text" key with the body of the message itself
-    // var messageText = params.text;
-
-    var pushQuery = new Parse.Query('_Installation');
-    pushQuery.equalTo('deviceType', 'ios');
-    //pushQuery.equalTo('user', 'EnRn2msAcx');//'hqSx15fNoO'//whereId//EnRn2msAcx
-
-    Parse.Push.send({
-        where: pushQuery,
-        data: {
-            alert: "Happy Weekend with WeightsNDates!",
-            badge: 1,
-            sound: 'default'
-            //,content-available: 1
-        }
-    }, {
-        useMasterKey: true,
-
-        success: function () {
-            console.log("#### PUSH OK");
-            response.success('success');
-        }, error: function (error) {
-            //console.log("#### PUSH ERROR" + error.message);
-            response.error(error);
-        }
-    }, {hasPushSupport: 1});
-
-
-});
 
 //FCM integration
 Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
