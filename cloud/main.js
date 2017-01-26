@@ -159,9 +159,9 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
         }
     };
 
-    fcm.send(message, function(err, response){
-        if(err) responseTotal.error("error with sendPush: " + err);
-           else responseTotal.success("Push send");
+    fcm.send(message, function (err, response) {
+        if (err) responseTotal.error("error with sendPush: " + err);
+        else responseTotal.success("Push send");
     }, {useMasterKey: true});
 
 });
@@ -182,7 +182,7 @@ Parse.Cloud.define("CloudPushUser", function (request, responseTotal) {
     ///
     var receiverInstallation = getUser(toId);
 
-    if (receiverInstallation.error){
+    if (receiverInstallation.error) {
         responseTotal.error('cant find installation of receiver');
     }
 
@@ -206,8 +206,8 @@ Parse.Cloud.define("CloudPushUser", function (request, responseTotal) {
         }
     };
 
-    fcm.send(message, function(err, response){
-        if(err) responseTotal.error("error with sendPush: " + err);
+    fcm.send(message, function (err, response) {
+        if (err) responseTotal.error("error with sendPush: " + err);
         else responseTotal.success("Push send");
     }, {useMasterKey: true});
 
@@ -281,34 +281,28 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
     //INPUT
     var params = request.params;
 
-    var user = params.user;
+    //var user = params.user;
+    
     var sessionTokenCurrent = params.sessionToken;
     var message = params.contentText;
     var fromId = params.fromUser;
     var toId = params.toUser;
     var conversationId = params.conversationId;
+    var fromName = params.senderName;
 
     //CAN BE RECEIVED FROM CLOUD CODE FUNCTION
     //var receiverInstallation = getUser(toId);
 
     var userQuery = new Parse.Query(Parse.Installation);//Parse.Installation);
-    userQuery.equalTo("user", toId);
+    userQuery.equalTo('user', toId);
 
     //Here you aren't directly returning a user, but you are returning a function that will sometime in the future return a user. This is considered a promise.
     return userQuery.find
-    ({ sessionToken: sessionTokenCurrent }, {
-        success: function(userRetrieved)
-        {
-            //console.log('Id receiver for send chat push' + userRetrieved.objectId);
+    ({sessionToken: sessionTokenCurrent}, {
+        success: function (userRetrieved) {
 
-            //var fcmToken = userRetrieved.get('GCMSenderId');
-            var foundUser = userRetrieved[0];
-
-            var fcmToken = foundUser.GCMSenderId;
-
-            //console.log('Token for send chat push' + fcmToken);
-
-            var fromName = params.senderName;
+            var foundUser = userRetrieved.length > 0 ? userRetrieved[0] : null;
+            var fcmToken = userRetrieved.length > 0 ? foundUser.GCMSenderId : null;
 
             //PROCESSING
 
@@ -323,17 +317,17 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
             //NOTE: query.find({ sessionToken: request.user.getSessionToken() })...
 
             //ADD/PUT MESSAGE TO Message table
-            var MessageClass = Parse.Object.extend("Message");
+            var MessageClass = Parse.Object.extend('Message');
             var messageObj = new MessageClass();
 
-            messageObj.set("conversationId", conversationId);
-            messageObj.set("content", message);
-            messageObj.set("read", false);
-            messageObj.set("authorId", fromId);
+            messageObj.set('conversationId', conversationId);
+            messageObj.set('content', message);
+            messageObj.set('read', false);
+            messageObj.set('authorId', fromId);
             //MAYBE NEED TO ADD SOME DATA MORE
 
-            messageObj.save(null,{
-                success:function(messageObj) {
+            messageObj.save({sessionToken: sessionTokenCurrent}, {
+                success: function (messageObj) {
                     //UPDATE CONVERSATION table with
                     //THIS LAST MESSAGE ID
                     var messageID = messageObj.objectId;
@@ -342,12 +336,12 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                     query.equalTo('objectId', conversationId);
 
                     //OR FIND
-                    query.first({
-                        success: function(results) {
+                    query.find({sessionToken: sessionTokenCurrent},
+                            {success: function (results) {
                             var conversation = results[0];
-                            conversation.set("lastMessage", messageID);
-                            conversation.save(null,{
-                                success:function(person) {
+                            conversation.set('lastMessage', messageID);
+                            conversation.save({sessionToken: sessionTokenCurrent}, {
+                                success: function (conversation) {
                                     //response.success(person);
 
                                     //SEND PUSH
@@ -375,28 +369,27 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                                         }
                                     };
 
-                                    fcm.send(messageFCM, function(err, response){
-                                        if(err) responseTotal.error("error with sendPush: " + err.text);
-                                        else responseTotal.success("Chat Push send successfully. All data stored.");
+                                    fcm.send(messageFCM, function (err, response) {
+                                        if (err) responseTotal.error('error with sendPush: ' + err.text);
+                                        else responseTotal.success('Chat Push send successfully. All data stored.');
                                     }, {useMasterKey: true});
 
                                 },
-                                error:function(error) {
+                                error: function (error) {
                                     responseTotal.error('Error 1:' + error.text);
                                 }
                             }, {useMasterKey: true});
 
-                        }, error: function() {
+                        }, error: function () {
                             responseTotal.error('Conversation update failed');
                         }
                     }, {useMasterKey: true});
-                }, error:function(error) {
-                    responseTotal.error('Error 2: '+error.text);
+                }, error: function (error) {
+                    responseTotal.error('Error 2: ' + error.text);
                 }
             }, {useMasterKey: true});
         },
-        error: function(error)
-        {
+        error: function (error) {
             responseTotal.error('No installation for receiver ' + error.text);
         }
     }, {useMasterKey: true});
@@ -404,21 +397,18 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
 });
 
-function getUser(userId)
-{
+function getUser(userId) {
     var userQuery = new Parse.Query(Parse.Installation);
     userQuery.equalTo("user", userId);
 
     //Here you aren't directly returning a user, but you are returning a function that will sometime in the future return a user. This is considered a promise.
     return userQuery.first
     ({
-        success: function(userRetrieved)
-        {
+        success: function (userRetrieved) {
             //When the success method fires and you return userRetrieved you fulfill the above promise, and the userRetrieved continues up the chain.
             return userRetrieved;
         },
-        error: function(error)
-        {
+        error: function (error) {
             return error;
         }
     }, {useMasterKey: true});
