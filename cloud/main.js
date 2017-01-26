@@ -276,7 +276,7 @@ Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 //CHAT BLOCK
 
 //chat message on conversation on before save. OR define
-Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
+Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     //INPUT
     var params = request.params;
