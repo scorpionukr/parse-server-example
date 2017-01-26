@@ -299,12 +299,12 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
     ({ sessionToken: sessionTokenCurrent }, {
         success: function(userRetrieved)
         {
-            console.log('Id receiver for send chat push' + userRetrieved.objectId);
+            //console.log('Id receiver for send chat push' + userRetrieved.objectId);
 
             //var fcmToken = userRetrieved.get('GCMSenderId');
             var fcmToken = userRetrieved.GCMSenderId;
 
-            console.log('Token for send chat push' + fcmToken);
+            //console.log('Token for send chat push' + fcmToken);
 
             var fromName = params.senderName;
 
@@ -374,28 +374,28 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                                     };
 
                                     fcm.send(messageFCM, function(err, response){
-                                        if(err) responseTotal.error("error with sendPush: " + err);
+                                        if(err) responseTotal.error("error with sendPush: " + err.text);
                                         else responseTotal.success("Chat Push send successfully. All data stored.");
                                     }, {useMasterKey: true});
 
                                 },
                                 error:function(error) {
-                                    responseTotal.error(error);
+                                    responseTotal.error('Error 1:' + error.text);
                                 }
                             }, {useMasterKey: true});
 
                         }, error: function() {
-                            responseTotal.error("Conversation update failed");
+                            responseTotal.error('Conversation update failed');
                         }
                     }, {useMasterKey: true});
                 }, error:function(error) {
-                    responseTotal.error(error);
+                    responseTotal.error('Error 2: '+error.text);
                 }
             }, {useMasterKey: true});
         },
         error: function(error)
         {
-            responseTotal.error('No installation for receiver ' + error);
+            responseTotal.error('No installation for receiver ' + error.text);
         }
     }, {useMasterKey: true});
 
