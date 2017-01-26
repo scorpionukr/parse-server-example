@@ -290,100 +290,114 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     var receiverInstallation = getUser(toId);
 
-    if (receiverInstallation.error) {
-        responseTotal.error('No installation for sender');
-    }
+    var userQuery = new Parse.Query(Parse.Installation);
+    userQuery.equalTo("user", userId);
 
-    var fcmToken = receiverInstallation.get('GCMSenderId');
+    //Here you aren't directly returning a user, but you are returning a function that will sometime in the future return a user. This is considered a promise.
+    return userQuery.first
+    ({
+        success: function(userRetrieved)
+        {
+            console.log('Id receiver for send chat push' + userRetrieved.objectId);
 
-    console.log('Token for send chat push' + fcmToken);
+            //var fcmToken = userRetrieved.get('GCMSenderId');
+            var fcmToken = userRetrieved.GCMSenderId;
 
-    var fromName = params.senderName;
+            console.log('Token for send chat push' + fcmToken);
 
-    //PROCESSING
+            var fromName = params.senderName;
 
-    //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
-    if (message.length > 1000) {
-        // Truncate and add a ...
-        message = message.substring(0, 999) + "...";
-    }
+            //PROCESSING
 
-    //OUTPUT
+            //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
+            if (message.length > 1000) {
+                // Truncate and add a ...
+                message = message.substring(0, 999) + "...";
+            }
 
-    //NOTE: query.find({ sessionToken: request.user.getSessionToken() })...
+            //OUTPUT
 
-    //ADD/PUT MESSAGE TO Message table
-    var MessageClass = Parse.Object.extend("Message");
-    var messageObj = new MessageClass();
+            //NOTE: query.find({ sessionToken: request.user.getSessionToken() })...
 
-    messageObj.set("conversationId", conversationId);
-    messageObj.set("content", message);
-    messageObj.set("read", false);
-    messageObj.set("authorId", fromId);
-    //MAYBE NEED TO ADD SOME DATA MORE
+            //ADD/PUT MESSAGE TO Message table
+            var MessageClass = Parse.Object.extend("Message");
+            var messageObj = new MessageClass();
 
-    messageObj.save(null,{
-        success:function(messageObj) {
-            //UPDATE CONVERSATION table with
-            //THIS LAST MESSAGE ID
-            var messageID = messageObj.objectId;
+            messageObj.set("conversationId", conversationId);
+            messageObj.set("content", message);
+            messageObj.set("read", false);
+            messageObj.set("authorId", fromId);
+            //MAYBE NEED TO ADD SOME DATA MORE
 
-            var query = new Parse.Query('Conversation');
-            query.equalTo('objectId', conversationId);
+            messageObj.save(null,{
+                success:function(messageObj) {
+                    //UPDATE CONVERSATION table with
+                    //THIS LAST MESSAGE ID
+                    var messageID = messageObj.objectId;
 
-            //OR FIND
-            query.first({
-                success: function(results) {
-                    var conversation = results[0];
-                    conversation.set("lastMessage", messageID);
-                    conversation.save(null,{
-                        success:function(person) {
-                            //response.success(person);
+                    var query = new Parse.Query('Conversation');
+                    query.equalTo('objectId', conversationId);
 
-                            //SEND PUSH
+                    //OR FIND
+                    query.first({
+                        success: function(results) {
+                            var conversation = results[0];
+                            conversation.set("lastMessage", messageID);
+                            conversation.save(null,{
+                                success:function(person) {
+                                    //response.success(person);
 
-                            if (message.length > 60) {
-                                // Truncate and add a ...
-                                message = message.substring(0, 58) + "...";
-                            }
+                                    //SEND PUSH
 
-                            var messageFCM = {
-                                to: fcmToken,
-                                collapse_key: conversationId, //for the same messages : chat group
-                                priority: "high",
+                                    if (message.length > 60) {
+                                        // Truncate and add a ...
+                                        message = message.substring(0, 58) + "...";
+                                    }
 
-                                notification: {
-                                    title: 'Message from ' + fromName,
-                                    body: message,
-                                    icon: 'ic_message_chat',
-                                    tag: 'WnD Chat'
+                                    var messageFCM = {
+                                        to: fcmToken,
+                                        collapse_key: conversationId, //for the same messages : chat group
+                                        priority: "high",
+
+                                        notification: {
+                                            title: 'Message from ' + fromName,
+                                            body: message,
+                                            icon: 'ic_message_chat',
+                                            tag: 'WnD Chat'
+                                        },
+
+                                        data: {  //you can send only notification or only data(or include both)
+                                            my_key: 'WnD Chat data',
+                                            my_another_key: 'WnD Chat data additional'
+                                        }
+                                    };
+
+                                    fcm.send(messageFCM, function(err, response){
+                                        if(err) responseTotal.error("error with sendPush: " + err);
+                                        else responseTotal.success("Chat Push send successfully. All data stored.");
+                                    }, {useMasterKey: true});
+
                                 },
-
-                                data: {  //you can send only notification or only data(or include both)
-                                    my_key: 'WnD Chat data',
-                                    my_another_key: 'WnD Chat data additional'
+                                error:function(error) {
+                                    responseTotal.error(error);
                                 }
-                            };
-
-                            fcm.send(messageFCM, function(err, response){
-                                if(err) responseTotal.error("error with sendPush: " + err);
-                                else responseTotal.success("Chat Push send successfully. All data stored.");
                             }, {useMasterKey: true});
 
-                        },
-                        error:function(error) {
-                            responseTotal.error(error);
+                        }, error: function() {
+                            responseTotal.error("Conversation update failed");
                         }
                     }, {useMasterKey: true});
-
-                }, error: function() {
-                    responseTotal.error("Conversation update failed");
+                }, error:function(error) {
+                    responseTotal.error(error);
                 }
             }, {useMasterKey: true});
-        }, error:function(error) {
-            responseTotal.error(error);
+        },
+        error: function(error)
+        {
+            responseTotal.error('No installation for receiver ' + error);
         }
     }, {useMasterKey: true});
+
 
 });
 
