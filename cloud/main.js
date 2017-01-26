@@ -247,7 +247,7 @@ Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
     //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
     if (message.length > 1000) {
         // Truncate and add a ...
-        message = message.substring(0, 999) + "...");
+        message = message.substring(0, 999) + "...";
     }
 
     //OUTPUT
@@ -286,7 +286,7 @@ Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
 
                             if (message.length > 60) {
                                 // Truncate and add a ...
-                                message = message.substring(0, 58) + "...");
+                                message = message.substring(0, 58) + "...";
                             }
 
                             var messageFCM = {
