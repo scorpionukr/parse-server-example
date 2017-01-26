@@ -1,19 +1,17 @@
+//INIT CLOUD SERVER
+
 Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
 Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
-
 Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
-
-var gcm = require('node-gcm');
 var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
 var FCM = require('fcm-node');
 var fcm = new FCM(SERVER_KEY_FCM);
-
-var sender = new gcm.Sender(SERVER_KEY_FCM);
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
+
+//DEFINE CLOUD FUNCTIONS
 
 Parse.Cloud.define('CloudSendToDevice', function (request, response) {
     console.log('Run cloud function to forward message to user');
@@ -50,7 +48,7 @@ Parse.Cloud.define('CloudSendToDevice', function (request, response) {
 
 });
 
-Parse.Cloud.beforeSave('CloudMatchWithUser', function (request, response) {
+Parse.Cloud.define('CloudMatchWithUser', function (request, response) {
 
     console.log('Run cloud function to match with user ' + request.likedUserId + ' fbId=' + request.fbId + ' like=' + request.params.like);
 
@@ -131,15 +129,9 @@ Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
  HashMap<String,String> map = new HashMap<String, String>();
  map.put("PARAM1KEY","PARAM1VALUE");
  // here you can send parameters to your cloud code functions
- // such parameters can be the channel name, array of users to send a push to and more...
-
  ParseCloud.callFunctionInBackground("SendPush",map, new FunctionCallback<Object>() {
-
  @Override
- public void done(Object object, ParseException e) {
- // handle callback
- }
- });
+ public void done(Object object, ParseException e) { // handle callback } });
  * */
 
 Parse.Cloud.define("CloudSendPush", function (request, response) {
@@ -177,78 +169,15 @@ Parse.Cloud.define("CloudSendPush", function (request, response) {
 
 });
 
-Parse.Cloud.define("CloudSendPushAlt", function (request, responseTotal) {
-
-
-
-    var pushQuery = new Parse.Query('_Installation');
-    pushQuery.equalTo('deviceType', 'android');
-
-
-    var message = new gcm.Message({
-        data: { key1: 'Android Message' }
-    });
-
-    var regTokens = ['YOUR_REG_TOKEN_HERE'];
-
-    sender.send(message, { registrationTokens: regTokens }, function (err, response) {
-        if(err) responseTotal.error("error with sendPush: " + err);
-        else 	responseTotal.success("Push send");
-    });
-
-
-});
-
-Parse.Cloud.define("CloudSendPushFull", function (request, responseTotal) {
-
-    var params = request.params;
-    var gcmToken = params.gcmToken;
-
-    var message = new gcm.Message({
-        collapseKey: 'demo',
-        priority: 'high',
-        contentAvailable: true,
-        delayWhileIdle: true,
-        timeToLive: 3,
-        restrictedPackageName: "com.weights.n.dates.app",
-        dryRun: true,
-        data: {
-            key1: 'message1',
-            key2: 'message2'
-        },
-        notification: {
-            title: "Hello, Android",
-            icon: "ic_launcher",
-            body: "This is a notification that will be displayed ASAP."
-        }
-    });
-
-    message.addData({
-        key1: 'message1',
-        key2: 'message2'
-    });
-
-// Add the registration tokens of the devices you want to send to
-    var registrationTokens = [];
-    registrationTokens.push(gcmToken);
-    //registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
-    //registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
-
-    sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
-        if(err) responseTotal.error("error with sendPush: " + err);
-        else 	responseTotal.success("Push send");
-    }, {useMasterKey: true});
-});
-
 //FCM integration
 Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
 
     var params = request.params;
     var gcmToken = params.gcmToken;
 
-    var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+    var message = {
         to: gcmToken,
-     //   collapse_key: 'your_collapse_key',
+        //collapse_key: 'your_collapse_key', //for the same messages : chat group
         priority: "high",
 
         notification: {
@@ -266,157 +195,16 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
 
     fcm.send(message, function(err, response){
         if(err) responseTotal.error("error with sendPush: " + err);
-        else 	responseTotal.success("Push send");
+           else responseTotal.success("Push send");
     }, {useMasterKey: true});
 
-});
-
-Parse.Cloud.define("CloudPushSingle", function (request, responseTotal) {
-
-    var params = request.params;
-    var gcmToken = params.gcmToken;
-
-    var message = new gcm.Message({
-        collapseKey: 'demo',
-        priority: 'high',
-        contentAvailable: true,
-        delayWhileIdle: true,
-        timeToLive: 3,
-        restrictedPackageName: "com.weights.n.dates.app",
-        dryRun: true,
-        data: {
-            key1: 'message1',
-            key2: 'message2'
-        },
-        notification: {
-            title: "Hello, Android",
-            icon: "ic_launcher",
-            body: "This is a notification that will be displayed ASAP."
-        }
-    });
-
-    message.addData({
-        key1: 'message1',
-        key2: 'message2'
-    });
-
-// Add the registration tokens of the devices you want to send to
-    var registrationTokens = [];
-    registrationTokens.push(gcmToken);
-    //registrationTokens.push('cpVDzXkqv6Y:APA91bFMhpa-7dWdpe55bf8WKRfUCorap3XgX4qpuB4X64jvPW6JvUtm9MWsHyJonxiLTLc4fs7YXaakFweTHEMcgDHcXb-Klf8xTawlXSCWV8YBtqgcL-249XZ6xo7z3nEWTzgftKu5');
-    //registrationTokens.push('APA91bELtc3JPC2qZfAeBdQEreGG2OgWxYjXwMUzRATnlWhLdLbGMqsCJD7AtFrsyxRgOYuy0MGQhad0B9gdPjC2EFqk5x2sexRPVX-eRtDQnG5bpd9W_D1UbrARMcKIz3vvrjJJJlwh');
-
-    sender.sendNoRetry(message, { registrationTokens: registrationTokens }, function (err, response) {
-        if(err) responseTotal.error("error with sendPush: " + err);
-        else 	responseTotal.success("Push send");
-    }, {useMasterKey: true});
-
-});
-
-Parse.Cloud.define("CloudSendAnnouncement", function(request, response) {
-    //var name = request.params.senderName;
-    //var msg = request.params.message;
-
-    Parse.Push.send({
-        channels: [ 'hqSx15fNoO' ],
-        data: {
-            title: 'Test device',
-            message: 'WnD loves you!',
-            action: "com.announcement.SEND_ANNOUNCEMENT",
-            senderId: '620420937756',//620420937756//hqSx15fNoO
-            accountId: 'hqSx15fNoO'
-        }
-    }, {
-        success: function() {
-            // Push was successful
-            response.success("sendAnnouncement sent");
-        },
-        error: function(error) {
-            // Handle error
-            response.error("error with sendAnnouncement: " + error);
-        },
-        useMasterKey: true
-    });
-});
-
-Parse.Cloud.define("sendAnnouncement", function(request, response) {
-    var name = request.params.senderName;
-    var msg = request.params.message;
-
-    Parse.Push.send({
-        channels: [ request.params.accountId ],
-        data: {
-            title: name,
-            message: msg,
-            action: "com.announcement.SEND_ANNOUNCEMENT",
-            senderId: request.params.senderId,
-            accountId: request.params.accountId
-        }
-    }, {
-        success: function() {
-            // Push was successful
-            response.success("sendAnnouncement sent");
-        },
-        error: function(error) {
-            // Handle error
-            response.error("error with sendAnnouncement: " + error);
-        },
-        useMasterKey: true
-    });
 });
 
 /*
  * Method to send Message to all Android devices
  * Test from CURL
- * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{\"action\": \"SEND_PUSH\", \"message\": \"Hello Android\", \"customData\": \"Android Data\"}"  https://weightsndates-server-dev.herokuapp.com/parse/classes/CloudPushChannelPipe
+ * curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{}"  https://weightsndates-server-dev.herokuapp.com/parse/functions/Cloud
  * */
-Parse.Cloud.define('CloudPushChannelPipe', function (request, response) {
-
-    // request has 2 parameters: params passed by the client and the authorized user
-    // var params = request.params;
-    // var user = request.user; // request.user replaces Parse.User.current() // https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse
-    // var token = user.getSessionToken(); // get session token from request.user
-
-    // extract out the channel to send
-    var action = params.action;
-    var message = params.message;
-    var customData = params.customData;
-
-    // use to custom tweak whatever payload you wish to send
-    var pushQuery = new Parse.Query(Parse.Installation);
-    //pushQuery.equalTo("deviceType", "android");
-    pushQuery.equalTo("objectId", "hqSx15fNoO");
-
-    var payload = {
-        "data": {
-            "alert": message,
-            "action": action,
-            "customdata": customData
-        }
-    };
-
-    // Note that useMasterKey is necessary for Push notifications to succeed.
-    var text = "success";
-    var jsonObject = {
-        "answer": text
-    };
-
-    Parse.Push.send({
-        data: payload,
-        where: pushQuery,      // for sending to a specific channel  data: payload,
-    }, {
-        success: function () {
-            console.log("PushChannelPipe PUSH OK");
-            response.success(jsonObject);
-        }, error: function (error) {
-            console.log("PushChannelPipe PUSH ERROR" + error.message);
-            response.success("PushChannelPipe PUSH ERROR" + error.message);
-        }, useMasterKey: true
-    });
-
-
-});
-
 
 Parse.Cloud.define('CloudMatchWithUser', function (request, response) {
 
@@ -473,16 +261,106 @@ Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 
 //CHAT BLOCK
 
-//chat message on conversation on before save
-Parse.Cloud.beforeSave('CloudProcessChatMessage', function (request, response) {
-    var comment = request.object.get("message");
+//chat message on conversation on before save. OR define
+Parse.Cloud.beforeSave('CloudChatMessage', function (request, responseTotal) {
+
+    //INPUT
+    var params = request.params;
+
+    var message = params.contentText;
+    var fromId = params.fromUser;
+    var toId = params.toUser;
+    var conversationId = params.conversationId;
+
+    //CAN BE RECEIVED FROM CLOUD CODE FUNCTION
+    var fcmToken = params.receiverFcmToken;
+    var fromName = params.senderName;
+
+    //PROCESSING
 
     //CHECK SIZE AND SET MESSAGE SHORTER if it so big before SAVE
-    if (comment.length > 1000) {
+    if (message.length > 1000) {
         // Truncate and add a ...
-        request.object.set("message", comment.substring(0, 999) + "...");
+        message = message.substring(0, 999) + "...");
     }
-    response.success();
+
+    //OUTPUT
+
+    //NOTE: query.find({ sessionToken: request.user.getSessionToken() })...
+
+    //ADD/PUT MESSAGE TO Message table
+    var MessageClass = Parse.Object.extend("Message");
+    var messageObj = new MessageClass();
+
+    messageObj.set("conversationId", conversationId);
+    messageObj.set("content", message);
+    messageObj.set("read", false);
+    messageObj.set("authorId", fromId);
+    //MAYBE NEED TO ADD SOME DATA MORE
+
+    messageObj.save(null,{
+        success:function(messageObj) {
+            //UPDATE CONVERSATION table with
+            //THIS LAST MESSAGE ID
+            var messageID = messageObj.objectId;
+
+            var query = new Parse.Query('Conversation');
+            query.equalTo('objectId', conversationId);
+
+            //OR FIND
+            query.first({
+                success: function(results) {
+                    var conversation = results[0];
+                    conversation.set("lastMessage", messageID);
+                    conversation.save(null,{
+                        success:function(person) {
+                            //response.success(person);
+
+                            //SEND PUSH
+
+                            if (message.length > 60) {
+                                // Truncate and add a ...
+                                message = message.substring(0, 58) + "...");
+                            }
+
+                            var messageFCM = {
+                                to: fcmToken,
+                                collapse_key: conversationId, //for the same messages : chat group
+                                priority: "high",
+
+                                notification: {
+                                    title: 'Message from ' + fromName,
+                                    body: message,
+                                    icon: 'ic_message_chat',
+                                    tag: 'WnD Chat'
+                                },
+
+                                data: {  //you can send only notification or only data(or include both)
+                                    my_key: 'WnD Chat data',
+                                    my_another_key: 'WnD Chat data additional'
+                                }
+                            };
+
+                            fcm.send(messageFCM, function(err, response){
+                                if(err) responseTotal.error("error with sendPush: " + err);
+                                else responseTotal.success("Chat Push send successfully. All data stored.");
+                            }, {useMasterKey: true});
+
+                        },
+                        error:function(error) {
+                            responseTotal.error(error);
+                        }
+                    }, {useMasterKey: true});
+
+                }, error: function() {
+                    responseTotal.error("Conversation update failed");
+                }
+            }, {useMasterKey: true});
+        }, error:function(error) {
+            responseTotal.error(error);
+        }
+    }, {useMasterKey: true});
+
 });
 
 
@@ -494,16 +372,16 @@ Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
     response.success(request.object);
 });
 
-Parse.Cloud.afterSave('CloudTestObject', function (request, response) {
+Parse.Cloud.afterSave('CloudTestObjectAfter', function (request, response) {
     console.log('Ran afterSave on objectId: ' + request.object.id);
 });
 
-Parse.Cloud.beforeDelete('CloudTestObject', function (request, response) {
+Parse.Cloud.beforeDelete('CloudTestObjectBefore', function (request, response) {
     console.log('Ran beforeDelete on objectId: ' + request.object.id);
     response.success();
 });
 
-Parse.Cloud.afterDelete('CloudTestObject', function (request, response) {
+Parse.Cloud.afterDelete('CloudTestObjectAfterDelete', function (request, response) {
     console.log('Ran afterDelete on objectId: ' + request.object.id);
 });
 
