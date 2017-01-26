@@ -166,6 +166,54 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
 
 });
 
+Parse.Cloud.define("CloudPushUser", function (request, responseTotal) {
+
+    var params = request.params;
+
+    var userId = params.userId;
+    var titleText = params.titleText;
+    var bodyText = params.bodyText;
+    var iconId = params.iconId;
+    var tagText = params.tagText;
+
+    var key1 = params.key1;
+    var key2 = params.key2;
+
+    ///
+    var receiverInstallation = getUser(toId);
+
+    if (receiverInstallation.error){
+        responseTotal.error('cant find installation of receiver');
+    }
+
+    var gcmToken = receiverInstallation.get('GCMSenderId');
+
+    var message = {
+        to: gcmToken,
+        //collapse_key: 'your_collapse_key', //for the same messages : chat group
+        priority: "high",
+
+        notification: {
+            title: titleText,
+            body: bodyText,
+            icon: iconId,
+            tag: tagText
+        },
+
+        data: {  //you can send only notification or only data(or include both)
+            my_key: key1,
+            my_another_key: key2
+        }
+    };
+
+    fcm.send(message, function(err, response){
+        if(err) responseTotal.error("error with sendPush: " + err);
+        else responseTotal.success("Push send");
+    }, {useMasterKey: true});
+
+});
+
+
 /*
  * Method to send Message to all Android devices
  * Test from CURL
