@@ -2,11 +2,14 @@
 
 Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
 Parse.serverURL = 'http://wnd-parse-files:1337/parse';
+Parse.databaseURI = 'mongodb://admin:lakers1234@ds161028.mlab.com:61028/wnd-parse-new';
 Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
+
+
 var FCM = require('fcm-node');
 var fcm = new FCM(SERVER_KEY_FCM);
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
