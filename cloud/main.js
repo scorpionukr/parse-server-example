@@ -160,7 +160,12 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     };
 
     fcm.send(message, function (err, response) {
-        if (err) responseTotal.error("error with sendPush: " + err);
+        
+        var jsonFailObject = {
+            "answer": 'error with sendPush: ' + err.text
+        };
+        
+        if (err) responseTotal.error(jsonFailObject);
         else responseTotal.success("Push send");
     }, {useMasterKey: true});
 
@@ -273,6 +278,30 @@ Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 });
 
 
+//FCM
+Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
+    var params = request.params;
+
+    var userId = params.userId;
+    var token = params.token;
+
+    var FcmClass = Parse.Object.extend('Fcm');
+    var fcmObj = new FcmClass();
+
+    fcmObj.set('userId', userId);
+    fcmObj.set('token', token);
+
+    //TODO: Can be replaced with similar construction as find
+    fcmObj.save(null, {
+        success: function (messageObj) {
+            responseTotal.success('Fcm record Saved' + messageObj.objectId);
+        },
+        error: function (error) {
+            responseTotal.error({answer: 'Error 2: ' + error.text});
+        }
+    }, {useMasterKey: true});
+});
+
 //CHAT BLOCK
 
 //chat message on conversation on before save. OR define
@@ -293,9 +322,9 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     var userQuery = new Parse.Query('Fcm');
     userQuery.equalTo('userId', toId);
+    userQuery.descending('updatedAt');
 
-    userQuery.find
-    ({success: function (userRetrieved) {
+    userQuery.find({useMasterKey : true}).then(function (userRetrieved) {
 
             var foundUser = userRetrieved.length > 0 ? userRetrieved[0] : null;
             var fcmToken = userRetrieved.length > 0 ? foundUser.get('token') : null;
@@ -330,7 +359,7 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                     query.equalTo('objectId', conversationId);
 
                     //OR FIND
-                    query.find({success: function (results) {
+                    query.find({useMasterKey: true}).then(function (results) {
                                 var conversation = results[0];
                                 conversation.set('lastMessage', messageID);
                                 conversation.save(null, {
@@ -362,30 +391,23 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                                         };
 
                                         fcm.send(messageFCM, function (err, response) {
-                                            if (err) responseTotal.error('error with sendPush: ' + err.text);
+                                            if (err) responseTotal.error({answer: 'error with sendPush: ' + err.text});
                                             else responseTotal.success('Chat Push send successfully. All data stored.');
                                         }, {useMasterKey: true});
 
                                     },
                                     error: function (error) {
-                                        responseTotal.error('Error 1:' + error.text);
+                                        responseTotal.error({answer: 'Error 1:' + error.text});
                                     }
                                 }, {useMasterKey: true});
 
-                            }, error: function () {
-                            responseTotal.error('Conversation update failed');
-                        }
-                        }, {useMasterKey: true});
+                            });
                 }, error: function (error) {
-                    responseTotal.error('Error 2: ' + error.text);
+                    responseTotal.error({answer: 'Error 2: ' + error.text});
                 }
             }, {useMasterKey: true});
-        },
-        error: function (error) {
-            responseTotal.error('No installation for receiver ' + error.text);
         }
-    }, {useMasterKey: true});
-
+        );
 
 });
 
@@ -406,30 +428,6 @@ function getUser(userId) {
     }, {useMasterKey: true});
 };
 
-//FCM
-Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
-    //var params = request.params;
-
-    //var userId = params.userId;
-    //var token = params.token;
-
-//    var FcmClass = Parse.Object.extend("Fcm");
-    
- //   var fcmObj = new FcmClass();
-
- //   fcmObj.set('userId', userId);
-  //  fcmObj.set('token', token);
-    
- //   fcmObj.save(null,{
-  //      success:function(fcmObj) { 
-  //          responseTotal.success('Fcm record Saved');
-  //      },
-   //     error:function(error) {
-   //         responseTotal.error('Error 2: ');
-  //      }
-//}, {useMasterKey: true});
-    responseTotal.success('well done');
-});
 //BASIC TEST BLOCK
 
 Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
