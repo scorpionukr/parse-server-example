@@ -51,9 +51,9 @@ var api = new ParseServer({
       ]
   },
   filesAdapter: new S3Adapter(
-    "AKIAIJRIGNXA2BOCWIGA",
-    "IfTGFjY2XtAKe8mopz7Bbfk30YtlF8cnlXGhD1ub",
-    "wnd-files-test",
+    "AKIAJJSB3FN225ZTNBYQ",
+    "HPybj7i2bbrpML3nNDmmPhx9lFezl+5jLpDvHABG",
+    "wndfiles",
     {directAccess: true}
   ),
   liveQuery: {
