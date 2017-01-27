@@ -406,6 +406,29 @@ function getUser(userId) {
     }, {useMasterKey: true});
 };
 
+//FCM
+Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
+    var params = request.params;
+
+    var userId = params.userId;
+    var token = params.token;
+
+    var FcmClass = Parse.Object.extend('Fcm');
+    var fcmObj = new FcmClass();
+
+    fcmObj.set('userId', userId);
+    fcmObj.set('token', token);
+    
+    fcmObj.save(null,{
+        success:function(fcmObj) { 
+            responseTotal.success('Fcm record Saved');
+        },
+        error:function(error) {
+            responseTotal.error('Error 2: ');
+        }
+}, {useMasterKey: true});
+
+}
 //BASIC TEST BLOCK
 
 Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
