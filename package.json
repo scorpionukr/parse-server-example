@@ -12,13 +12,14 @@
     "express": "~4.11.x",
     "kerberos": "~0.0.x",
     "parse": "~1.8.0",
-    "parse-cloud-express": "~1.0",
-    "parse-server": "2.3.2"
+    "parse-server": "*",
+    "node-gcm": "*",
+    "fcm-node": "1.0.16"
   },
   "scripts": {
     "start": "node index.js"
   },
   "engines": {
-    "node": ">=4.3"
+    "node": ">=4.5"
   }
 }
