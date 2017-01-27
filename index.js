@@ -2,8 +2,19 @@
 // compatible API routes.
 
 var express = require('express');
+//var express = require('parse-server/node_modules/express');
 var ParseServer = require('parse-server').ParseServer;
+// S3 Adapter
+var S3Adapter = require('parse-server').S3Adapter;
 var path = require('path');
+
+var gcm = require('node-gcm');
+
+var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
+var FCM = require('fcm-node');
+var fcm = new FCM(SERVER_KEY_FCM);
+
+var sender = new gcm.Sender(SERVER_KEY_FCM);
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
 
@@ -15,13 +26,13 @@ var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds161028.mlab.com:61028/wnd-parse-new',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
+  applicationId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
-  fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
   serverURL: process.env.SERVER_URL || 'https://wnd-parse-files.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
   push: {
       android: {
         senderId: '620420937756',
-        apiKey: 'AAAAkHP4OBw:APA91bH8M4-AIlmNdlty1Wk4glio_3gByJpj5l8mYSIpNVM3FWrp6b6gHl8I7X-bdGykX-369gm3UOBpRZtbBcefrELUoVwPqkAhWmD-mGlAgFkxVdxa7EIfVQ2crRJhTbPSDZ5fkhR_'
+        apiKey: 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE'
       },
       ios: [
         {
@@ -38,8 +49,14 @@ var api = new ParseServer({
         }
       ]
   },
+  filesAdapter: new S3Adapter(
+    "AKIAIJRIGNXA2BOCWIGA",
+    "IfTGFjY2XtAKe8mopz7Bbfk30YtlF8cnlXGhD1ub",
+    "wnd-files-test",
+    {directAccess: true}
+  ),
   liveQuery: {
-    classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
+    classNames: ["Posts", "Comments", "Conversation", "Message", "Fcm"] // List of classes to support for query subscriptions
   }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
@@ -54,6 +71,8 @@ app.use('/public', express.static(path.join(__dirname, '/public')));
 // Serve the Parse API on the /parse URL prefix
 var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
+
+//app.use();
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
