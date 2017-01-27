@@ -292,14 +292,9 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
     fcmObj.set('token', token);
 
     //TODO: Can be replaced with similar construction as find
-    fcmObj.save(null, {
-        success: function (messageObj) {
-            responseTotal.success('Fcm record Saved' + messageObj.objectId);
-        },
-        error: function (error) {
-            responseTotal.error({answer: 'Error 2: ' + error.text});
-        }
-    }, {useMasterKey: true});
+    fcmObj.save({useMasterKey : true}).then(function (fcbObj) {
+            responseTotal.success({answer: 'Fcm record Saved'});
+        });
 });
 
 //CHAT BLOCK
