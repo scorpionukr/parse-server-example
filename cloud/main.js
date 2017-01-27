@@ -428,7 +428,7 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
    //         responseTotal.error('Error 2: ');
   //      }
 //}, {useMasterKey: true});
-
+    response.success('well done');
 }
 //BASIC TEST BLOCK
 
