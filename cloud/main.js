@@ -279,6 +279,7 @@ Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 
 
 //FCM
+//curl -X POST -H "X-Parse-Application-Id: 7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt" -H "X-Parse-REST-API-Key: yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh"  -H "Content-Type: application/json" -d "{\"userId\": \"hqSx15fNoO\", \"token\": \"test10\"}"  https://weightsndates-server-dev.herokuapp.com/parse/functions/CloudFcmUpdate
 Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
     var params = request.params;
 
@@ -292,9 +293,16 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
     fcmObj.set('token', token);
 
     //TODO: Can be replaced with similar construction as find
-    fcmObj.save({useMasterKey : true}).then(function (fcbObj) {
-            responseTotal.success({answer: 'Fcm record Saved'});
-        });
+    fcmObj.save(null, {
+    success: function (fcmObj) {
+        console.log("Save ok");
+    },
+    error: function (error) {
+        console.log("Save FCM failed");
+    }
+    });
+        
+    responseTotal.success({answer: 'Fcm record Saved'});
 });
 
 //CHAT BLOCK
