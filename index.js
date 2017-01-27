@@ -3,6 +3,8 @@
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
+// S3 Adapter
+var S3Adapter = require('parse-server').S3Adapter;
 var path = require('path');
 
 var gcm = require('node-gcm');
@@ -47,6 +49,12 @@ var api = new ParseServer({
         }
       ]
   },
+  filesAdapter: new S3Adapter(
+    "AKIAIJRIGNXA2BOCWIGA",
+    "IfTGFjY2XtAKe8mopz7Bbfk30YtlF8cnlXGhD1ub",
+    "wnd-files-test",
+    {directAccess: true}
+  ),
   liveQuery: {
     classNames: ["Posts", "Comments", "Conversation", "Message"] // List of classes to support for query subscriptions
   }
