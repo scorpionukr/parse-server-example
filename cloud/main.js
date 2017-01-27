@@ -97,7 +97,7 @@ Parse.Cloud.define('CloudMatchWithUser', function (request, response) {
 
 });
 
-Parse.Cloud.afterSave('CloudShowMatchWithUser', function (request, response) {
+Parse.Cloud.define('CloudShowMatchWithUser', function (request, response) {
 
     //Create conversation with status active
 
@@ -424,7 +424,7 @@ function getUser(userId) {
 };
 
 //BASIC TEST BLOCK
-
+/*
 Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
     console.log('Ran beforeSave on objectId: ' + request.object.id);
     // if update the request object, we need to send it back with the response
@@ -453,3 +453,5 @@ Parse.Cloud.define('CloudHello', function (request, response) {
     //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
     response.success("Hello world! From Cloud");
 });
+
+*/
