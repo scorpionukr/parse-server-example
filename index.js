@@ -3,6 +3,8 @@
 
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
+// S3 Adapter
+var S3Adapter = require('parse-server').S3Adapter;
 var path = require('path');
 
 var gcm = require('node-gcm');
@@ -25,7 +27,7 @@ var api = new ParseServer({
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   applicationId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
   masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
-  fileKey: process.env.FILE_KEY || '86f11687-2383-4c75-8206-944901d1946d',
+  fileKey: '86f11687-2383-4c75-8206-944901d1946d',
   serverURL: process.env.SERVER_URL || 'https://wnd-parse-files.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
   push: {
       android: {
@@ -47,6 +49,12 @@ var api = new ParseServer({
         }
       ]
   },
+  filesAdapter: new S3Adapter(
+    "AKIAIJRIGNXA2BOCWIGA",
+    "IfTGFjY2XtAKe8mopz7Bbfk30YtlF8cnlXGhD1ub",
+    "wnd-files-test",
+    {directAccess: true}
+  ),
   liveQuery: {
     classNames: ["Posts", "Comments", "Conversation", "Message"] // List of classes to support for query subscriptions
   }
