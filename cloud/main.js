@@ -160,12 +160,7 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     };
 
     fcm.send(message, function (err, response) {
-        
-        var jsonFailObject = {
-            "answer": 'error with sendPush: ' + err.text
-        };
-        
-        if (err) responseTotal.error(jsonFailObject);
+        if (err) responseTotal.error("error with sendPush: " + err);
         else responseTotal.success("Push send");
     }, {useMasterKey: true});
 
@@ -296,7 +291,7 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
             responseTotal.success('Fcm record Saved');
         },
         error: function (error) {
-            responseTotal.error({answer: 'Error 2: ' + error.text});
+            responseTotal.error('Error 2: ' + error.text);
         }
     }, {useMasterKey: true});
 }
@@ -321,9 +316,9 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     var userQuery = new Parse.Query('Fcm');
     userQuery.equalTo('userId', toId);
-    userQuery.descending('updatedAt');
 
-    userQuery.find({success: function (userRetrieved) {
+    userQuery.find
+    ({success: function (userRetrieved) {
 
             var foundUser = userRetrieved.length > 0 ? userRetrieved[0] : null;
             var fcmToken = userRetrieved.length > 0 ? foundUser.get('token') : null;
@@ -390,27 +385,27 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
                                         };
 
                                         fcm.send(messageFCM, function (err, response) {
-                                            if (err) responseTotal.error({answer: 'error with sendPush: ' + err.text});
+                                            if (err) responseTotal.error('error with sendPush: ' + err.text);
                                             else responseTotal.success('Chat Push send successfully. All data stored.');
                                         }, {useMasterKey: true});
 
                                     },
                                     error: function (error) {
-                                        responseTotal.error({answer: 'Error 1:' + error.text});
+                                        responseTotal.error('Error 1:' + error.text);
                                     }
                                 }, {useMasterKey: true});
 
                             }, error: function () {
-                            responseTotal.error({answer: 'Conversation update failed'});
+                            responseTotal.error('Conversation update failed');
                         }
                         }, {useMasterKey: true});
                 }, error: function (error) {
-                    responseTotal.error({answer: 'Error 2: ' + error.text});
+                    responseTotal.error('Error 2: ' + error.text);
                 }
             }, {useMasterKey: true});
         },
         error: function (error) {
-            responseTotal.error({answer: 'No installation for receiver ' + error.text});
+            responseTotal.error('No installation for receiver ' + error.text);
         }
     }, {useMasterKey: true});
 
