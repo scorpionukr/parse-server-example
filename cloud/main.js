@@ -3,9 +3,9 @@
 Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
 Parse.serverURL = 'http://wnd-parse-files.herokuapp.com/parse';
 Parse.databaseURI = 'mongodb://admin:lakers1234@ds161028.mlab.com:61028/wnd-parse-new';
-Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+Parse.appId = '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk';
+Parse.applicationId = '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk';
+Parse.masterKey = 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal';
 Parse.facebookAppIds = '1014313108587926';
 var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
 
