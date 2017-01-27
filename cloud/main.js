@@ -321,7 +321,7 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
     ({success: function (userRetrieved) {
 
             var foundUser = userRetrieved.length > 0 ? userRetrieved[0] : null;
-            var fcmToken = userRetrieved.length > 0 ? foundUser.get('token') : null;
+            var fcmToken = userRetrieved.length > 0 ? foundUser.token : null;
 
             //PROCESSING
 
