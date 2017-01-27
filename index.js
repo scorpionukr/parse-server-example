@@ -25,9 +25,9 @@ if (!databaseUri) {
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds161028.mlab.com:61028/wnd-parse-new',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-  applicationId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
-  masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
+  appId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
+  applicationId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
+  masterKey: process.env.MASTER_KEY || 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal', //Add your master key here. Keep it secret!
   serverURL: process.env.SERVER_URL || 'https://wnd-parse-files.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
   push: {
       android: {
