@@ -304,7 +304,7 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
     error: function (error) {
         console.log("Save FCM failed");
     }
-    });
+    }, {useMasterKey: true});
         
     responseTotal.success({answer: 'Fcm record Saved'});
 });
