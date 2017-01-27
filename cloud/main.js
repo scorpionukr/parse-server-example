@@ -321,7 +321,7 @@ Parse.Cloud.define('CloudChatMessage', function (request, responseTotal) {
 
     var userQuery = new Parse.Query('Fcm');
     userQuery.equalTo('userId', toId);
-    userQuery.descending('updatedAt');
+    //userQuery.descending('updatedAt');
 
     userQuery.find
     ({success: function (userRetrieved) {
