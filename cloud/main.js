@@ -288,7 +288,7 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
 
     messageObj.save(null, {
         success: function (messageObj) {
-            responseTotal.success('Fcm record Saved' + messageObj.objectId);
+            responseTotal.success('Fcm record Saved');
         },
         error: function (error) {
             responseTotal.error('Error 2: ' + error.text);
