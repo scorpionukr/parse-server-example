@@ -413,12 +413,12 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
     var userId = params.userId;
     var token = params.token;
 
-    var FcmClass = Parse.Object.extend("Fcm");
+//    var FcmClass = Parse.Object.extend("Fcm");
     
-    var fcmObj = new FcmClass();
+ //   var fcmObj = new FcmClass();
 
-    fcmObj.set('userId', userId);
-    fcmObj.set('token', token);
+ //   fcmObj.set('userId', userId);
+  //  fcmObj.set('token', token);
     
  //   fcmObj.save(null,{
   //      success:function(fcmObj) { 
