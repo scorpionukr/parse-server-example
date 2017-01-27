@@ -145,21 +145,30 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     var params = request.params;
     var gcmToken = params.gcmToken;
 
+    //var userId = params.userId;
+    var titleText = params.titleText;
+    var bodyText = params.bodyText;
+    var iconId = params.iconId;
+    var tagText = params.tagText;
+
+    var key1 = params.key1;
+    var key2 = params.key2;
+
     var message = {
         to: gcmToken,
         //collapse_key: 'your_collapse_key', //for the same messages : chat group
         priority: "high",
 
         notification: {
-            title: 'Title of your push notification',
-            body: 'Body of your push notification',
-            icon: 'ic_stat_utn',
-            tag: 'tag text'
+            title: titleText,
+            body: bodyText,
+            icon: iconId,
+            tag: tagText
         },
 
         data: {  //you can send only notification or only data(or include both)
-            my_key: 'my value',
-            my_another_key: 'my another value'
+            my_key: key1,
+            my_another_key: key2
         }
     };
 
@@ -189,17 +198,16 @@ Parse.Cloud.define("CloudPushUser", function (request, responseTotal) {
     var key2 = params.key2;
 
     ///
-    var receiverInstallation = getUser(toId);
+    var userQuery = new Parse.Query('Fcm');
+    userQuery.equalTo("userId", userId);
+    userQuery.descending('updatedAt');
 
-    if (receiverInstallation.error) {
-        responseTotal.error('cant find installation of receiver');
-    }
-
-    var gcmToken = receiverInstallation.get('GCMSenderId');
-
-    var message = {
-        to: gcmToken,
-        //collapse_key: 'your_collapse_key', //for the same messages : chat group
+    userQuery.find({useMasterKey : true}).then(function (fcmRetrieved) {
+        var foundToken = fcmRetrieved.length > 0 ? fcmRetrieved[0] : null;
+        var fcmToken = fcmRetrieved.length > 0 ? foundToken.token : null;
+        
+        var message = {
+        to: fcmToken,
         priority: "high",
 
         notification: {
@@ -216,10 +224,13 @@ Parse.Cloud.define("CloudPushUser", function (request, responseTotal) {
     };
 
     fcm.send(message, function (err, response) {
-        if (err) responseTotal.error("error with sendPush: " + err);
-        else responseTotal.success("Push send");
+        if (err) console.log("Save FCM failed");
+        else console.log("Push send");
     }, {useMasterKey: true});
-
+    });
+    
+    
+    responseTotal.success({answer: 'Push send'});
 });
 
 
@@ -434,36 +445,3 @@ function getUser(userId) {
         }
     }, {useMasterKey: true});
 };
-
-//BASIC TEST BLOCK
-/*
-Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
-    console.log('Ran beforeSave on objectId: ' + request.object.id);
-    // if update the request object, we need to send it back with the response
-    response.success(request.object);
-});
-
-Parse.Cloud.afterSave('CloudTestObjectAfter', function (request, response) {
-    console.log('Ran afterSave on objectId: ' + request.object.id);
-});
-
-Parse.Cloud.beforeDelete('CloudTestObjectBefore', function (request, response) {
-    console.log('Ran beforeDelete on objectId: ' + request.object.id);
-    response.success();
-});
-
-Parse.Cloud.afterDelete('CloudTestObjectAfterDelete', function (request, response) {
-    console.log('Ran afterDelete on objectId: ' + request.object.id);
-});
-
-Parse.Cloud.define('CloudHello', function (request, response) {
-    console.log('Run cloud function.');
-    // As with Parse-hosted Cloud Code, the user is available at: request.user
-    // You can get the users session token with: request.user.getSessionToken()
-    // Use the session token to run other Parse Query methods as that user, because
-    //   the concept of a 'current' user does not fit in a Node environment.
-    //   i.e.  query.find({ sessionToken: request.user.getSessionToken() })...
-    response.success("Hello world! From Cloud");
-});
-
-*/
