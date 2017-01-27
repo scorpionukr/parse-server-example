@@ -27,6 +27,7 @@ var api = new ParseServer({
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
   applicationId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
+  fileKey: '921ecb74-b3b2-42f1-ad6e-b66d4bff17a6',
   masterKey: process.env.MASTER_KEY || 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal', //Add your master key here. Keep it secret!
   serverURL: process.env.SERVER_URL || 'https://wnd-parse-files.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
   push: {
