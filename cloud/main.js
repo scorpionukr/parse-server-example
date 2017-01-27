@@ -408,10 +408,10 @@ function getUser(userId) {
 
 //FCM
 Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
-    var params = request.params;
+    //var params = request.params;
 
-    var userId = params.userId;
-    var token = params.token;
+    //var userId = params.userId;
+    //var token = params.token;
 
 //    var FcmClass = Parse.Object.extend("Fcm");
     
@@ -428,8 +428,8 @@ Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
    //         responseTotal.error('Error 2: ');
   //      }
 //}, {useMasterKey: true});
-    response.success('well done');
-}
+    responseTotal.success('well done');
+});
 //BASIC TEST BLOCK
 
 Parse.Cloud.beforeSave('CloudTestObject', function (request, response) {
