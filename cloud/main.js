@@ -273,6 +273,29 @@ Parse.Cloud.define('CloudUsersRequest', function (request, response) {
 });
 
 
+//FCM
+Parse.Cloud.define('CloudFcmUpdate', function (request, responseTotal) {
+    var params = request.params;
+
+    var userId = params.userId;
+    var token = params.token;
+
+    var FcmClass = Parse.Object.extend('Fcm');
+    var fcmObj = new FcmClass();
+
+    fcmObj.set('userId', userId);
+    fcmObj.set('token', token);
+
+    messageObj.save(null, {
+        success: function (messageObj) {
+            responseTotal.success('Fcm record Saved' + messageObj.objectId);
+        },
+        error: function (error) {
+            responseTotal.error('Error 2: ' + error.text);
+        }
+    }, {useMasterKey: true});
+}
+
 //CHAT BLOCK
 
 //chat message on conversation on before save. OR define
