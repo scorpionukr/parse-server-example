@@ -163,6 +163,7 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
 
     var message = {
         to: gcmToken,
+        sound: "default",
         //collapse_key: 'your_collapse_key', //for the same messages : chat group
         priority: "high",
 
