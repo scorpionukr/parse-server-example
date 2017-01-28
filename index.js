@@ -23,7 +23,8 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-    databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
+    databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds011409.mlab.com:11409/weightsndates-prod',
+    //databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
 
     appId: process.env.APP_ID || '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk',
     //appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
@@ -34,9 +35,6 @@ var api = new ParseServer({
     serverURL: process.env.SERVER_URL || 'https://weightsndates-server-prod.herokuapp.com:1337/parse',
     //serverURL: process.env.SERVER_URL || 'https://weightsndates-server-dev.herokuapp.com:1337/parse',
     fileKey: '86f11687-2383-4c75-8206-944901d1946d',
-    serverURL: process.env.SERVER_URL || 'https://weightsndates-server-prod.herokuapp.com:1337/parse',
-    //serverURL: process.env.SERVER_URL || 'https://weightsndates-server-dev.herokuapp.com:1337/parse',  // Don't forget to change to https if needed
-
     push: {
 
         android: {
