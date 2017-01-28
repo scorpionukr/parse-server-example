@@ -170,7 +170,7 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
         notification: {
             title: titleText,
             body: bodyText,
-            sound: soundId,
+            sound: "default",
             icon: iconId,
             tag: tagText,
             chatId: chatId
