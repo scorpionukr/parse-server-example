@@ -145,8 +145,10 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     var params = request.params;
     var gcmToken = params.gcmToken;
 
-    //var userId = params.userId;
+    var userId = params.userId;
+
     var titleText = params.titleText;
+    var userAvatarUrl = params.userAvatarUrl;
     var bodyText = params.bodyText;
     var iconId = params.iconId;
     var soundId = params.soundId;
@@ -167,12 +169,16 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
             sound: soundId,
             icon: iconId,
             tag: tagText,
+            otherUserId: userId,
+            userAvatarUrl: userAvatarUrl,
             chatId: chatId
         },
 
         data: {  //you can send only notification or only data(or include both)
             my_key: key1,
             chatId: chatId,
+            otherUserId: userId,
+            userAvatarUrl: userAvatarUrl,
             my_another_key: key2
         }
     };
