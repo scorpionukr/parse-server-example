@@ -1,9 +1,14 @@
-Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
-Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+Parse.initialize('9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWykt');
+//Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
+Parse.serverURL = 'http://weightsndates-server-prod.herokuapp.com:1337/parse';
+//Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
 
-Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.appId = '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk';
+//Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
 Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+//Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.masterKey = 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal';
+//Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 
 var gcm = require('node-gcm');
