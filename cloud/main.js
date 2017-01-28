@@ -178,11 +178,15 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     fcm.send(message, function (err, response) {
         
         var jsonFailObject = {
-            "answer": 'error with sendPush: ' + err.text
+            "answer": 'error with sendPush: '
+        };
+
+        var jsonSuccessObject = {
+            "answer": 'Push send '
         };
         
         if (err) responseTotal.error(jsonFailObject);
-        else responseTotal.success("Push send");
+        else responseTotal.success(jsonSuccessObject);
     }, {useMasterKey: true});
 
 });
