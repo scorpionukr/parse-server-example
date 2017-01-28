@@ -1,12 +1,17 @@
 //INIT CLOUD SERVER
+Parse.initialize('9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk');
+//Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
+Parse.serverURL = 'http://weightsndates-server-prod.herokuapp.com:1337/parse';
+//Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
+Parse.databaseURI = 'mongodb://admin:lakers1234@ds011409.mlab.com:11409/weightsndates-prod';
+//Parse.databaseURI = 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev';
 
-Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
-Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
-Parse.databaseURI = 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev';
-
-Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
-Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
+Parse.appId = '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk';
+//Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.applicationId = '9dNCAwH7vA2ni7XTATXKsGQnNRCnwH7XVEKUgWyk';
+//Parse.applicationId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
+Parse.masterKey = 'seXsSDxuUaarP0gN6pCikpJiZZgKgKLiU0p8KJal';
+//Parse.masterKey = 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh';
 Parse.facebookAppIds = '1014313108587926';
 var SERVER_KEY_FCM = 'AIzaSyDoTGDyXFzwdkNP09N7_aN7VUerbmxYwbE';
 
