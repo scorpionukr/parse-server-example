@@ -1,7 +1,7 @@
 //INIT CLOUD SERVER
 
 Parse.initialize('7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt');
-Parse.serverURL = 'http://wnd-parse-files:1337/parse';
+Parse.serverURL = 'http://weightsndates-server-dev.herokuapp.com:1337/parse';
 Parse.databaseURI = 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev';
 
 Parse.appId = '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt';
