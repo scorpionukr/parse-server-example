@@ -150,10 +150,10 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     var params = request.params;
     var gcmToken = params.gcmToken;
 
-    var userId = params.userId;
+
 
     var titleText = params.titleText;
-    var userAvatarUrl = params.userAvatarUrl;
+
     var bodyText = params.bodyText;
     var iconId = params.iconId;
     var soundId = params.soundId;
@@ -174,16 +174,12 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
             sound: soundId,
             icon: iconId,
             tag: tagText,
-            otherUserId: userId,
-            userAvatarUrl: userAvatarUrl,
             chatId: chatId
         },
 
         data: {  //you can send only notification or only data(or include both)
             my_key: key1,
             chatId: chatId,
-            otherUserId: userId,
-            userAvatarUrl: userAvatarUrl,
             my_another_key: key2
         }
     };
@@ -207,21 +203,27 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
 Parse.Cloud.define("CloudPushFcmAndroid", function (request, responseTotal) {
 
     var params = request.params;
-    var gcmToken = params.gcmToken;
 
-    //var userId = params.userId;
+    //NEW FIELDS
+    var userAvatarUrl = params.userAvatarUrl;
+    var userId = params.userId;
+    var type = params.type;
+
+    //BASIC FIELDS
+    var gcmToken = params.gcmToken;
     var titleText = params.titleText;
     var bodyText = params.bodyText;
     var iconId = params.iconId;
     var tagText = params.tagText;
     var conversationId = params.chatId;
 
+    //FIELDS FOR THE FUTURE SUPPORT
     var key1 = params.key1;
     var key2 = params.key2;
 
+    //Message core collapse_key: 'your_collapse_key', //for the same messages : chat group
     var message = {
         to: gcmToken,
-        //collapse_key: 'your_collapse_key', //for the same messages : chat group
         priority: "high",
 
         notification: {
@@ -229,12 +231,17 @@ Parse.Cloud.define("CloudPushFcmAndroid", function (request, responseTotal) {
             body: bodyText,
             icon: iconId,
             tag: tagText,
+            otherUserId: userId,
+            userAvatarUrl: userAvatarUrl,
             conversationId: conversationId
         },
 
-        data: {  //you can send only notification or only data(or include both)
+        data: {
             my_key: key1,
             conversationId: conversationId,
+            otherUserId: userId,
+            type: type,
+            userAvatarUrl: userAvatarUrl,
             my_another_key: key2
         }
     };
