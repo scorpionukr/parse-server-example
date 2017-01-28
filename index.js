@@ -12,6 +12,7 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
+  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   databaseURI: databaseUri || 'mongodb://admin:lakers1234@ds145405.mlab.com:45405/weightsndates-dev',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || '7IfmJE8zVqi6WkLgdku2wiw2JdaBa6qyBaExhTvt',
