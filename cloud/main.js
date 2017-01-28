@@ -149,6 +149,7 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     var titleText = params.titleText;
     var bodyText = params.bodyText;
     var iconId = params.iconId;
+    var soundId = params.soundId;
     var tagText = params.tagText;
     var chatId = params.chatId;
 
@@ -163,6 +164,7 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
         notification: {
             title: titleText,
             body: bodyText,
+            sound: soundId,
             icon: iconId,
             tag: tagText,
             chatId: chatId
@@ -185,6 +187,57 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
             "answer": 'Push send '
         };
         
+        if (err) responseTotal.error(jsonFailObject);
+        else responseTotal.success(jsonSuccessObject);
+    }, {useMasterKey: true});
+
+});
+
+Parse.Cloud.define("CloudPushFcmAndroid", function (request, responseTotal) {
+
+    var params = request.params;
+    var gcmToken = params.gcmToken;
+
+    //var userId = params.userId;
+    var titleText = params.titleText;
+    var bodyText = params.bodyText;
+    var iconId = params.iconId;
+    var tagText = params.tagText;
+    var conversationId = params.chatId;
+
+    var key1 = params.key1;
+    var key2 = params.key2;
+
+    var message = {
+        to: gcmToken,
+        //collapse_key: 'your_collapse_key', //for the same messages : chat group
+        priority: "high",
+
+        notification: {
+            title: titleText,
+            body: bodyText,
+            icon: iconId,
+            tag: tagText,
+            conversationId: conversationId
+        },
+
+        data: {  //you can send only notification or only data(or include both)
+            my_key: key1,
+            conversationId: conversationId,
+            my_another_key: key2
+        }
+    };
+
+    fcm.send(message, function (err, response) {
+
+        var jsonFailObject = {
+            "answer": 'error with sendPush: '
+        };
+
+        var jsonSuccessObject = {
+            "answer": 'Push send '
+        };
+
         if (err) responseTotal.error(jsonFailObject);
         else responseTotal.success(jsonSuccessObject);
     }, {useMasterKey: true});
