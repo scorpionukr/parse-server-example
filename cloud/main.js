@@ -150,8 +150,6 @@ Parse.Cloud.define("CloudPushFCM", function (request, responseTotal) {
     var params = request.params;
     var gcmToken = params.gcmToken;
 
-
-
     var titleText = params.titleText;
 
     var bodyText = params.bodyText;
