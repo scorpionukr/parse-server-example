@@ -34,7 +34,8 @@ var api = new ParseServer({
     //masterKey: process.env.MASTER_KEY || 'yFDKPty9Eob0j1jP1tf7Ln3ISnWP4pCI7G0MBcmh', //Add your master key here. Keep it secret!
     serverURL: process.env.SERVER_URL || 'https://weightsndates-server-prod.herokuapp.com:1337/parse',
     //serverURL: process.env.SERVER_URL || 'https://weightsndates-server-dev.herokuapp.com:1337/parse',
-    fileKey: '86f11687-2383-4c75-8206-944901d1946d',
+    fileKey: '921ecb74-b3b2-42f1-ad6e-b66d4bff17a6',
+    //fileKey: '86f11687-2383-4c75-8206-944901d1946d',
     push: {
 
         android: {
